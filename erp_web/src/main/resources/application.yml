@@ -1,0 +1,30 @@
+
+spring:
+  profiles:
+    active:
+    - dev
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1/ssh_test
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 3
+  druid:
+    servletUsername: ganxiaofeng
+    servletPassword: root
+server:
+  port: 80
+druid:
+  monitor:
+    serviceAndDaoId:
+    - userServiceImpl
