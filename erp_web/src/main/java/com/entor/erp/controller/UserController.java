@@ -21,4 +21,9 @@ public class UserController {
 		return userService.getById(id);
 	}
 	
+	@GetMapping(value="/del")
+	public void del() {
+		throw new RuntimeException("这是错误");
+	}
+	
 }
