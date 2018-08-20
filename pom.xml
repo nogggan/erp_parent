@@ -61,7 +61,7 @@
 	<modules>
 		<module>erp_entity</module>
 		<module>erp_dao</module>
-		<module>erp_service</module>
+		<module>erp_business</module>
 		<module>erp_web</module>
 	</modules>
 </project>

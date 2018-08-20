@@ -5,7 +5,7 @@
     <artifactId>erp_parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>erp_service</artifactId>
+  <artifactId>erp_business</artifactId>
   <dependencies>
   		<dependency>
   			<groupId>com.entor.erp</groupId>

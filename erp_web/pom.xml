@@ -9,7 +9,7 @@
   <dependencies>
   		<dependency>
   			<groupId>com.entor.erp</groupId>
-		    <artifactId>erp_service</artifactId>
+		    <artifactId>erp_business</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
   		</dependency>
   </dependencies>
