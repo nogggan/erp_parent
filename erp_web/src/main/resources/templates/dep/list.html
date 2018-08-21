@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	var remoteUrl = [[@{/dep/page}]];
+	var addUrl = [[@{/dep/add}]];
+	var delUrl = [[@{/dep/}]];
+</script>
+<script type="text/javascript">
+	$(function(){
+		//加载表格数据
+		$("#grid").datagrid({
+			url:remoteUrl,
+			columns:[[
+				{field:'uuid',title:'部门编号',width:100,align:'center'},
+				{field:'name',title:'部门名称',width:100,align:'center'},
+				{field:'tele',title:'部门电话',width:100,align:'center'}
+		    ]],
+		    fitColumns:"true",
+		    singleSelect:"true",
+		    pagination:"true",
+		    pageSize:'5',
+		    pageList:[5,10,15,20],
+		    toolbar:[{
+		    	iconCls:'icon-add',
+		    	text:'添加',
+		    	handler:function(){
+		    		$("#addWindow").window('open');
+		    	}},{
+			    	iconCls:'icon-remove',
+			    	text:'删除',
+			    	handler:function(){
+			    		var row = $("#grid").datagrid('getSelected');
+			    		if(row==null)
+			    			alert("请选择要删除的部门");
+			    		else{
+			    			var confirm = window.confirm('确定要删除'+row.name+'吗?');
+			    			if(confirm)
+			    				$.ajax({
+			    					url:delUrl+row.uuid,
+			    					type:'DELETE',
+			    					success:function(result){
+			    						if(result.code==200){
+			    							alert(result.data);
+			    							$("#grid").datagrid('reload');
+			    						}
+			    						else
+			    							alert(result.msg);
+			    					}
+			    				})
+			    		}
+			    	}
+		    	}],
+		 });
+		//添加部门
+		$('#addWindow').dialog({
+			title:'编辑部门',
+			width:290,
+		    height:150,
+			closed:true,
+			cache:false,
+			modal:true,
+			buttons:[{
+			      text:'保存', 
+			      handler: function(){
+			    	  var data = getFormData("addForm");
+			    	  $.post(addUrl,data,function(result){
+			    		  if(result.code==200){
+			    			  alert(result.data);
+			    			  $("#addWindow").window('close');
+			    			  $("#grid").datagrid('reload');
+			    			  $("#addForm").form('clear');
+			    		  }else{
+			    			  alert(result.msg);
+			    		  }
+			    	  })
+			   	  }
+			},{
+			      text:'取消', 
+			      handler:function(){
+			    	  $("#addWindow").window('close');
+			    	  $("#editForm").form('clear');
+			      }
+			}]
+		});
+
+	});
+	function search(){
+		var data = getFormData("searchForm");
+		$("#grid").datagrid('load',data);
+	}
+</script>
+</head>
+<body>
+	<form id="searchForm">
+		部门名称：<input name="name"/>
+		部门电话：<input name="tele"/>
+		<input type="button" value="搜索" onclick="search()"/>	
+	</form><br/>
+	<table id="grid"></table>
+	<div id="addWindow">
+		<form id="addForm">
+			<table style="margin:10px;">
+				<tr>
+					<td>部门名称：</td><td><input name="name"/></td>
+				</tr>
+				<tr>
+					<td>部门电话：</td><td><input name="tele"/></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

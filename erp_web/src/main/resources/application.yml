@@ -10,8 +10,8 @@ spring:
   profiles: dev
   datasource:
     username: scott
-    password: tiger
-    url: jdbc:oracle:thin:@localhost:1521:xe
+    password: scott
+    url: jdbc:oracle:thin:@192.168.1.144:1521:xe
     driver-class-name: oracle.jdbc.OracleDriver
   redis:
     host: 127.0.0.1
@@ -21,6 +21,9 @@ spring:
         max-idle: 3
   thymeleaf:
     cache: false
+logging:
+  level:
+    com.entor.erp: debug
 server:
   port: 80
 druid:
