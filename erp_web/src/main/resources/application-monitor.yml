@@ -1,0 +1,5 @@
+druid:
+  monitor:
+    serviceAndDaoId:
+    - userServiceImpl #用户服务监控
+    - depServiceImpl #部门服务监控

@@ -3,16 +3,16 @@ spring:
   profiles:
     active:
     - dev
-
+    - monitor
 ---
-
+#jdbc:mysql://127.0.0.1/ssh_test,com.mysql.jdbc.Driver
 spring:
   profiles: dev
   datasource:
-    username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1/ssh_test
-    driver-class-name: com.mysql.jdbc.Driver
+    username: scott
+    password: tiger
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    driver-class-name: oracle.jdbc.OracleDriver
   redis:
     host: 127.0.0.1
     port: 6379
@@ -21,21 +21,13 @@ spring:
         max-idle: 3
   thymeleaf:
     cache: false
-  resources:
-    static-locations:
-    - classpath:/META-INF/resources/
-    - classpath:/resources/
-    - classpath:/static/
-    - classpath:/public/
-    - classpath:/templates/
 server:
   port: 80
 druid:
   view:
     servletUsername: ganxiaofeng
     servletPassword: root
-  monitor:
-    serviceAndDaoId:
-    - userServiceImpl
 mybatis-plus:
   mapper-locations: classpath:/com/entor/erp/dao/*.mapper
+  global-config:
+    key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
