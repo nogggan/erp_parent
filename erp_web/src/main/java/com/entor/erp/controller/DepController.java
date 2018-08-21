@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,16 +28,6 @@ public class DepController {
 	@Autowired
 	private IDepService depService;
 	
-	@PostMapping("/list")
-	public ResponseEntity<Map<String, Object>> findList(){
-		Map<String, Object> map = new HashMap<>();
-		List<Dep> list = depService.findByList();
-		map.put("total",list.size());
-		map.put("rows",list);
-		HttpStatus status = HttpStatus.OK;
-		return new ResponseEntity<>(map, status);
-	}
-	
 	/**
 	 * 添加部门
 	 * @param dep 
@@ -49,6 +40,11 @@ public class DepController {
 		return Result.error(ResultType.PARA_ERROR, "添加失败");
 	}
 	
+	/**
+	 * 删除部门
+	 * @param id 部门id
+	 * @return
+	 */
 	@DeleteMapping("/{id}")
 	public Result<String> delete(@PathVariable("id")Long id){
 		if(depService.delete(id))
@@ -56,14 +52,20 @@ public class DepController {
 		return Result.error(ResultType.PARA_ERROR, "删除失败");
 	}
 	
-	@GetMapping("/update")
-	public String update(Dep dep) {
+	/**
+	 * 修改部门
+	 * @param id	部门id
+	 * @param dep
+	 * @return
+	 */
+	@PutMapping("/{id}")
+	public Result<String> update(@PathVariable("id")Long id,Dep dep) {
 		if(depService.updateDep(dep))
-			return "修改成功";
-		return "修改失败";
+			return Result.success("删除成功");
+		return Result.error(ResultType.PARA_ERROR, "删除失败");
 	}
 	
-	@GetMapping("/get/{id}")
+	@GetMapping("/{id}")
 	public Dep get(@PathVariable("id")Long id) {
 		return depService.getById(id);
 	}
