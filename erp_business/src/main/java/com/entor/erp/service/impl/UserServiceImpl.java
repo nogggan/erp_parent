@@ -2,6 +2,7 @@ package com.entor.erp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entor.erp.dao.UserMapper;
 import com.entor.erp.entity.User;
@@ -14,8 +15,9 @@ public class UserServiceImpl implements IUserService {
 	private UserMapper userMapper;
 
 	@Override
+	@Transactional
 	public User getById(Integer id) {
-		return userMapper.getById(id);
+		return userMapper.selectById(id);
 	}
 
 }

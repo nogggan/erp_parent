@@ -10,7 +10,7 @@ spring:
   profiles: dev
   datasource:
     username: root
-    password: gzsf
+    password: root
     url: jdbc:mysql://127.0.0.1/ssh_test
     driver-class-name: com.mysql.jdbc.Driver
   redis:
@@ -29,7 +29,7 @@ spring:
     - classpath:/public/
     - classpath:/templates/
 server:
-  port: 8080
+  port: 80
 druid:
   view:
     servletUsername: ganxiaofeng
@@ -37,4 +37,5 @@ druid:
   monitor:
     serviceAndDaoId:
     - userServiceImpl
- 
+mybatis-plus:
+  mapper-locations: classpath:/com/entor/erp/dao/*.mapper
