@@ -1,10 +1,26 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>综合信息管理系统</title>
-
 <link rel="stylesheet" type="text/css" href="css/login.css"/>
+<script type="text/javascript" src="adminjs/jquery-1.7.2.min.js" th:src="@{/adminjs/jquery-1.7.2.min.js}"></script>
+<script type="text/javascript" src='adminjs/index.js' th:src="@{/adminjs/index.js}"> </script>
+<script type="text/javascript" src='adminjs/index.js' th:src="@{/adminjs/index.js}"> </script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	function login(){
+		var data = getFormData("loginform");
+		var url = [[@{/sys/login}]]
+		$.post(url,data,function(data){
+			if(data.code==200){
+				alert("登录成功");
+			}else{
+				alert(data.msg);
+			}	
+		})
+	}
+</script>
 </head>
 <body>
 <div class='signup_container'>
@@ -17,11 +33,11 @@
                         <form class="signup_form_form" id="loginform" method="post" >
                                 <div class="form_row first_row">
                                     <label for="signup_email">请输入用户名</label>
-                                    <input type="text" name="" placeholder="请输入用户名" id="signup_name" >
+                                    <input type="text" name="username" placeholder="请输入用户名" id="signup_name" >
                                 </div>
                                 <div class="form_row">
                                     <label for="signup_password">请输入密码</label>
-                                    <input type="password" name="" placeholder="请输入密码" id="signup_password" >
+                                    <input type="password" name="password" placeholder="请输入密码" id="signup_password" >
                                 </div>
                        </form>
             </div> 

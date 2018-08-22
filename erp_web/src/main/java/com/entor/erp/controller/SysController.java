@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,7 +23,7 @@ public class SysController {
 	@Autowired
 	private IEmpService empService;
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public Result<Emp> login(@Valid EmpVo empVo){
 		Emp emp = new Emp();
 		try {
