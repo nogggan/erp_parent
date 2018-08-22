@@ -75,5 +75,6 @@
 		<module>erp_dao</module>
 		<module>erp_business</module>
 		<module>erp_web</module>
+		<module>erp_common</module>
 	</modules>
 </project>
