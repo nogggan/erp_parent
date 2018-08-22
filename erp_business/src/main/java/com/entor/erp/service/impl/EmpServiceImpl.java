@@ -2,7 +2,6 @@ package com.entor.erp.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.EmpMapper;
 import com.entor.erp.entity.Emp;
@@ -19,6 +18,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 		Emp dbEmp = baseMapper.selectOne(emp);
 		if(dbEmp==null)
 			throw new GlobalException(Result.error(ResultType.USER_NO_EXISTS, "用户名或密码错误"));
+		dbEmp.setPassword("******");
 		return dbEmp;
 	}
 

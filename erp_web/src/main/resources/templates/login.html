@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>综合信息管理系统</title>
-<link rel="stylesheet" type="text/css" href="css/login.css"/>
+<link rel="stylesheet" type="text/css" href="css/login.css" th:href="@{/css/login.css}"/>
 <script type="text/javascript" src="adminjs/jquery-1.7.2.min.js" th:src="@{/adminjs/jquery-1.7.2.min.js}"></script>
 <script type="text/javascript" src='adminjs/index.js' th:src="@{/adminjs/index.js}"> </script>
 <script type="text/javascript" src='adminjs/index.js' th:src="@{/adminjs/index.js}"> </script>
@@ -15,6 +15,7 @@
 		$.post(url,data,function(data){
 			if(data.code==200){
 				alert("登录成功");
+				window.location.href = [[@{/}]];
 			}else{
 				alert(data.msg);
 			}	
@@ -27,7 +28,7 @@
 <div class="w-load"><div class="spin"></div></div>
     <h1 class='signup_title'>蓝云ERP管理系统</h1>
     <div id="userInfo">
-    	<span style="float:left; margin-left:40px; height:200px; border:0px solid red"><img src='images/erp.jpg' id='admin'/></span>
+    	<span style="float:left; margin-left:40px; height:200px; border:0px solid red"><img th:src="@{/images/erp.jpg}" src='images/erp.jpg' id='admin'/></span>
         <span style="float:left; margin-left:40px; height:200px; border:0px solid red">
             <div id="signup_forms" class="signup_forms clearfix">
                         <form class="signup_form_form" id="loginform" method="post" >

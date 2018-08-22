@@ -9,5 +9,7 @@ public interface ResultType {
 	Integer USER_NO_EXISTS = 601;
 	
 	Integer ERROR = 500;
+	
+	Integer METHOD_NOT_SUPPORT = 406;
 
 }

@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.entor.erp.serializer.DateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,6 +23,7 @@ public class Result<T> {
 	private T data;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
+	@JsonSerialize(using=DateSerializer.class)
 	private Date timestamp;
 	
 	public static final <E> Result<E> success(E data) {
