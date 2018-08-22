@@ -1,7 +1,7 @@
 package com.entor.erp.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -44,6 +44,7 @@ public class DepServiceImpl extends ServiceImpl<DepMapper, Dep> implements IDepS
 			wrapper.like("name", dep.getName());
 		if(dep.getUuid() != null)
 			wrapper.eq("uuid", dep.getUuid());
+		wrapper.orderDesc(Arrays.asList("uuid"));
 		return selectPage(page,wrapper);
 	}
 

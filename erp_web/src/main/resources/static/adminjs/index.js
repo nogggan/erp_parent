@@ -1,47 +1,31 @@
 
-window.onload = function(){
-	$('#loading-mask').fadeOut();
-}
+
 var onlyOpenTitle="欢迎使用";//不允许关闭的标签的标题
 
-var _menus={
-		"icon":"icon-sys",
-		"menuid":"0",
-		"menuname":"系统菜单",
-		"menus":
-			[
-			 	{
-			 		"icon":"icon-sys","menuid":"100","menuname":"一级菜单","menus":
-					[
-						{"icon":"icon-sys","menuid":"101","menuname":"二级菜单","url":""}	,
-						{"icon":"icon-sys","menuid":"102","menuname":"二级菜单","url":""}						
-					]
-			 	}
-			 	
-			 ]
-		};
+var _menus;
 
 
+window.onload = function(){
+	$('#loading-mask').fadeOut();
+	$.post("/menu/list",function(data){
+		_menus = data; 
+		InitLeftMenu();
+	});
+	tabClose();
+	tabCloseEven();
 
+}
 
 $(function(){	
 	
-	
-	InitLeftMenu();
-	tabClose();
-	tabCloseEven();
-	
-	
+		
 })
-
-
 
 
 //初始化左侧
 function InitLeftMenu() {
 	$("#nav").accordion({animate:false,fit:true,border:false});
 	var selectedPanelname = '';
-	
 	    $.each(_menus.menus, function(i, n) {
 			var menulist ='';
 			menulist +='<ul class="navlist">';
