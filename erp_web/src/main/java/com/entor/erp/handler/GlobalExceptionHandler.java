@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
@@ -35,6 +36,10 @@ public class GlobalExceptionHandler {
 			String supportMethods = Stream.of(supportedMethods).findAny().get();
 			String msg = String.format( "不支持（%s）方法，支持的方法->(%s)", method,supportMethods);
 			return Result.error(ResultType.METHOD_NOT_SUPPORT, msg);
+		}else if(e instanceof MethodArgumentTypeMismatchException) {
+			MethodArgumentTypeMismatchException exception = (MethodArgumentTypeMismatchException) e;
+			String msg = exception.getMessage();
+			return Result.error(ResultType.ARGUMENT_NOT_MATCH, msg);
 		}
 		e.printStackTrace();
 		return Result.error(ResultType.ERROR, "服务器内部错误");

@@ -19,6 +19,7 @@
 		//加载表格数据
 		$("#grid").datagrid({
 			url:remoteUrl,
+			method:'POST',
 			columns:[[
 				{field:'uuid',title:'部门编号',width:100,align:'center'},
 				{field:'name',title:'部门名称',width:100,align:'center'},

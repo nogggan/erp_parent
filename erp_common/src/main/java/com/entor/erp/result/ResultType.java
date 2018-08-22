@@ -12,4 +12,5 @@ public interface ResultType {
 	
 	Integer METHOD_NOT_SUPPORT = 406;
 
+	Integer ARGUMENT_NOT_MATCH = 407;
 }

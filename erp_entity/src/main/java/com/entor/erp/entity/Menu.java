@@ -2,6 +2,7 @@ package com.entor.erp.entity;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Menu {
 	
 	private String pid;
 	
-	private transient List<Menu> menus;
+	@TableField(exist=false)
+	private List<Menu> menus;
 	
 }
