@@ -3,6 +3,8 @@ package com.entor.erp.entity;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.entor.erp.serializer.DateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
@@ -26,6 +28,7 @@ public class Emp {
     
     private String address;
     
+    @JsonSerialize(using=DateSerializer.class)
     private Date birthday;
     
     private Integer depuuid;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.erp.dao.OrdersMapper">
+  	
+  	<resultMap type="com.entor.erp.entity.Orders" id="ordersMap">
+  		<id property="uuid" column="uuid"/>
+  		<result property="createtime" column="createtime"/>
+  		<result property="checktime" column="checktime"/>
+  		<result property="starttime" column="starttime"/>
+  		<result property="endtime" column="endtime"/>
+  		<result property="type" column="type"/>
+  		<result property="supplieruuid" column="supplieruuid"/>
+  		<result property="totalmoney" column="totalmoney"/>
+  		<result property="state" column="state"/>
+  		<association property="creater" column="creater" select="com.entor.erp.dao.EmpMapper.selectById">
+  		</association>
+  		<association property="checker" column="checker" select="com.entor.erp.dao.EmpMapper.selectById">
+  		</association>
+  		<association property="starter" column="starter" select="com.entor.erp.dao.EmpMapper.selectById">
+  		</association>
+  		<association property="ender" column="ender" select="com.entor.erp.dao.EmpMapper.selectById">
+  		</association>
+  	</resultMap>
+  		
+</mapper>

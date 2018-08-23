@@ -6,4 +6,11 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>erp_entity</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.entor.erp</groupId>
+  		<artifactId>erp_common</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

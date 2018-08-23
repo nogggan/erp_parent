@@ -15,6 +15,7 @@ public class WebConfiguration implements WebMvcConfigurer{
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/list").setViewName("dep/list");
 		registry.addViewController("/login.html").setViewName("login");
+		registry.addViewController("/orders").setViewName("orders/list");
 	}
 	
 	@Override
