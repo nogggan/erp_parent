@@ -27,6 +27,7 @@
 		$("#grid").datagrid({
 			url:pageUrl,
 			title:"订单列表",
+			fitColumns:"true",
 			columns: [[
 				{field: 'uuid', title: '订单编号', width: 80,align:'center'},
 				{field: 'createtime', title: '生成日期', align:'center',width: 150},
@@ -45,7 +46,10 @@
 				{field: 'ender', title: '库管员', width: 100, align:'center',formatter: function(value,row,index) {
 					return row.ender.name}},
 				{field: 'supplier', title: '供应商', width: 200, align:'center',formatter:function(value,row,index){
-					return value.name+" ("+value.address+") ";
+					if(value == null)
+						return "不明";
+					else
+						return value.name+" ("+value.address+") ";
 				}},
 				{field: 'totalmoney', title: '总金额', width: 80, align:'center'},
 				{field: 'state', title: '订单状态', align:'center',width:80,formatter:function(value,row,index){
@@ -76,7 +80,7 @@
 					singleSelect:true
 				})
 			},
-			singleSelect: true,
+			singleSelect: "true",
 			pagination: true, 
 			pageSize: '5',
 			pageList: [5, 10, 15, 20]
