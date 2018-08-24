@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
+<head>
+<meta charset="UTF-8">
+<title>采购申请</title>
+<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
+<script type="text/javascript" >
+	var lastRowIndex;
+	$(function(){
+		$("#grid").datagrid({
+			columns:[[
+				{field:'goodsuuid',title:'商品编号',width:100,align:'center'},
+				{field:'goodsname',title:'商品名称',width:100,align:'center'},
+				{field:'price',title:'价格',width:100,align:'center',editor:{
+					type:'numberbox',
+					options:{precision:2,disabled:true}
+				}},
+				{field:'num',title:'数量',width:100,align:'center',editor:'numberbox'},
+				{field:'money',title:'金额',width:100,align:'center',editor:{
+					type:'numberbox',
+					options:{disabled:true,precision:2}
+				}}
+			]],
+			onSelect:function(index,row){
+				$("#grid").datagrid("endEdit",lastRowIndex);
+				lastRowIndex = index;
+				$("#grid").datagrid("beginEdit",lastRowIndex);
+				bindCalsEvent();
+			},
+			singleSelect:true,
+			toolbar:[{
+				iconCls:'icon-add',
+				text:'添加',
+				handler:function(){
+					$("#grid").datagrid('endEdit',lastRowIndex);
+					$("#grid").datagrid('appendRow',{price:0,num:0,money:0});
+					lastRowIndex = $("#grid").datagrid('getRows').length-1;
+					$("#grid").datagrid('beginEdit',lastRowIndex);
+					bindCalsEvent();
+				}
+			},{
+				iconCls:'icon-remove',
+				text:'删除',
+				handler:function(){
+					var row = $("#grid").datagrid("getSelected");
+					if(row == null){
+						alert("请选择删除的行");
+					}else{
+						var confirm = window.confirm("确定要删除该行吗?");
+						if(confirm){
+							$("#grid").datagrid('deleteRow',lastRowIndex);
+							lastRowIndex = $("#grid").datagrid("getRows").length-1;
+						}
+					}
+				}
+			}]
+		})
+	})
+	function cals(){
+		var priceEditor = $("#grid").datagrid('getEditor',{index:lastRowIndex,field:'price'});
+		var price = $(priceEditor.target).val();
+		var numEditor = $("#grid").datagrid('getEditor',{index:lastRowIndex,field:'num'});
+		var num = $(numEditor.target).val();
+		var totalMoney = price*num;
+		var moneyEditor = $("#grid").datagrid('getEditor',{index:lastRowIndex,field:'money'});
+		$(moneyEditor.target).val(totalMoney);
+	}
+	function bindCalsEvent(){
+		var priceEditor = $("#grid").datagrid("getEditor",{index:lastRowIndex,field:'price'});
+		$(priceEditor.target).bind("keyup",function(){
+			cals();
+		})
+		var numEditor = $("#grid").datagrid("getEditor",{index:lastRowIndex,field:'num'});
+		$(numEditor.target).bind("keyup",function(){
+			cals();
+		})
+	}
+	function oo(){
+		cals();
+	}
+</script>
+</head>
+<body>
+	<table id="grid"></table>
+	<input type="button" onclick="oo()" value="计算" />
+</body>
+</html>

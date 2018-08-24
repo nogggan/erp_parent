@@ -1,6 +1,7 @@
 package com.entor.erp.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -15,6 +16,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 
 	@Override
 	public Page<Orders> getPage(Page<Orders> page, Orders orders) {
+		if(StringUtils.isEmpty(orders.getState())) {
+			orders.setState(null);
+		}
 		Page<Orders> selectPage = selectPage(page, new EntityWrapper<Orders>(orders));
 		return selectPage;
 	}

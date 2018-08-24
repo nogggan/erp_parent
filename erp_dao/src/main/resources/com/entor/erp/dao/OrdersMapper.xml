@@ -11,9 +11,9 @@
   		<result property="starttime" column="starttime"/>
   		<result property="endtime" column="endtime"/>
   		<result property="type" column="type"/>
-  		<result property="supplieruuid" column="supplieruuid"/>
   		<result property="totalmoney" column="totalmoney"/>
   		<result property="state" column="state"/>
+  		<association property="supplier" column="supplieruuid" select="com.entor.erp.dao.SupplierMapper.selectById"></association>
   		<association property="creater" column="creater" select="com.entor.erp.dao.EmpMapper.selectById">
   		</association>
   		<association property="checker" column="checker" select="com.entor.erp.dao.EmpMapper.selectById">

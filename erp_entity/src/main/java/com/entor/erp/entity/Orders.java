@@ -41,7 +41,7 @@ public class Orders {
 	
 	private Emp ender;
 	
-	private Long supplieruuid;
+	private Supplier supplier;
 	
 	private Double totalmoney;
 	

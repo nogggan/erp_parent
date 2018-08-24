@@ -53,5 +53,5 @@ public class SysController {
 		session.invalidate();
 		return "redirect:/login.html";
 	}
-
+	
 }

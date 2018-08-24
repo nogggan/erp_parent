@@ -11,6 +11,11 @@
 	<script type="text/javascript" src='adminjs/index.js' th:src="@{/adminjs/index.js}"> </script>
 	<script type="text/javascript">
 		$(function(){
+			var isLogin = [[${session.emp==null?false:true}]];
+			if(!isLogin){
+				alert("请先登录");
+				window.location.href="[[@{/login.html}]]";
+			}
 			$.ajax({
 				url:"[[@{/sys/info}]]",
 				type:"GET",
