@@ -29,4 +29,11 @@ public class GlobalController {
 		return "orders/add";
 	}
 	
+	@GetMapping(path="/order/check.html")
+	public String toOrdersCheck(HttpSession session) {
+		if(session.getAttribute("emp")==null)
+			return "redirect:/login.html";
+		return "orders/check";
+	}
+	
 }
