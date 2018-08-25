@@ -12,6 +12,8 @@
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 	var orderNameUrl = [[@{/goods/all}]];
+	var supplierUrl = [[@{/supplier/all}]];
+	var addOrderUrl = [[@{/orders/add}]];
 </script>
 <script type="text/javascript" >
 	var lastRowIndex;
@@ -85,6 +87,19 @@
 					}
 				}
 			}]
+		});
+		$("#supplier").combogrid({
+			url:supplierUrl,
+			idField:'uuid',
+			textField:'name',
+			panelWidth:700,
+			columns:[[
+				{field:'uuid',title:'ID',width:100},
+				{field: 'name', title: '名称', width: 100},
+			    {field: 'address', title: '地址', width: 100},
+			    {field: 'contact', title: '联系人', width: 100},
+			    {field: 'tele', title: '电话', width: 100}
+			]]
 		})
 	})
 	function cals(){
@@ -113,8 +128,20 @@
 			cals();
 		})
 	}
-	function oo(){
-		cals();
+	function save(){
+		$("#grid").datagrid("endEdit",lastRowIndex);
+		var data = getFormData("searchForm");
+		var rows = $("#grid").datagrid("getRows");
+		data['json'] =  JSON.stringify(rows);
+		$.post(addOrderUrl,data,function(data){
+			if(data.code==200){
+				alert(data.data);
+				$("#grid").datagrid('loadData',{total:0,rows:[]});
+				$("#totalMoney").html("0");
+			}else{
+				alert(data.msg);
+			}
+		})
 	}
 	function bindGoodsData(record){
 		var priceEditor = $("#grid").datagrid("getEditor",{index:lastRowIndex,field:'price'});
@@ -125,10 +152,13 @@
 </script>
 </head>
 <body>
+	<form id="searchForm">
+		供应商：<input id="supplier" name="uuid"/>
+	</form><br/>
 	<table id="grid"></table>
 	<span id="totalMoney"></span><br/>
 	<form >
 	</form>
-	<input type="button" onclick="oo()" value="提交审核" />
+	<input type="button" onclick="save()" value="提交申请" />
 </body>
 </html>

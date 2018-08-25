@@ -21,6 +21,9 @@
 	var orderType = new Array();
 	orderType[0] = '销售订单';
 	orderType[1] = '采购订单';
+	var orderDetailState = new Array();
+	orderDetailState[0] = "未入库";
+	orderDetailState[1] = "已入库";
 </script>
 <script type="text/javascript">
 	$(function(){
@@ -38,16 +41,28 @@
 					return orderType[value];
 				}},
 				{field: 'creater', title: '下单员', width: 100, align:'center',formatter: function(value,row,index) {
-					return row.creater.name;}},
+					if(value == null)
+						return "";
+					else
+						return row.creater.name;}},
 				{field: 'checker', title: '审查员', width: 100, align:'center',formatter: function(value,row,index) {
-					return row.checker.name}},
+					if(value == null)
+						return "";
+					else
+						return row.checker.name}},
 				{field: 'starter', title: '采购员', width: 100, align:'center',formatter: function(value,row,index) {
-					return row.starter.name}},
+					if(value == null)
+						return "";
+					else
+						return row.starter.name}},
 				{field: 'ender', title: '库管员', width: 100, align:'center',formatter: function(value,row,index) {
-					return row.ender.name}},
+					if(value == null)
+						return "";
+					else
+						return row.ender.name}},
 				{field: 'supplier', title: '供应商', width: 200, align:'center',formatter:function(value,row,index){
 					if(value == null)
-						return "不明";
+						return "";
 					else
 						return value.name+" ("+value.address+") ";
 				}},
@@ -75,7 +90,9 @@
 						{field: 'endtime', title: '结束日期', width: 150,align:'center'},
 						{field: 'ender', title: '仓管员', width: 100,align:'center'},
 						{field: 'storeuuid', title: '仓库编号', width: 100,align:'center'},
-						{field: 'state', title: '状态', width: 100,align:'center'}
+						{field: 'state', title: '状态', width: 100,align:'center',formatter:function(value,row,index){
+							return orderDetailState[value];
+						}}
 					]],
 					singleSelect:true
 				})

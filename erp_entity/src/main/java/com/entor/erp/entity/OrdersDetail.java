@@ -36,6 +36,10 @@ public class OrdersDetail {
 	
 	private Integer storeuuid;
 	
+	/**
+	 * 0 ： 未入库
+	 * 1 ： 已入库
+	 */
 	private String state;
 	
 	private Long ordersuuid;
