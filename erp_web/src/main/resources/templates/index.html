@@ -13,7 +13,6 @@
 		$(function(){
 			var isLogin = [[${session.emp==null?false:true}]];
 			if(!isLogin){
-				alert("请先登录");
 				window.location.href="[[@{/login.html}]]";
 			}
 			$.ajax({
