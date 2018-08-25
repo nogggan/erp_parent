@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.entor.erp.entity.Supplier;
 import com.entor.erp.service.ISupplierService;
 
@@ -26,7 +27,7 @@ public class SupplierController {
 	
 	@PostMapping("/all")
 	public List<Supplier> getAll(){
-		return supplierService.selectList(null);
+		return supplierService.selectList(new EntityWrapper<Supplier>().eq("type", 1));
 	}
 	
 }

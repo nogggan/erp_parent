@@ -10,8 +10,10 @@
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
 <script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/order.js}" ></script>
 <script type="text/javascript"  th:inline="javascript">
-	var pageUrl = [[@{/orders/page(state=1)}]];
+	var basePath = [[${#request.contextPath}]];
+	/*var pageUrl = [[@{/orders/page(state=1)}]];
 	var orderDetailUrl = [[@{/orderdetail/}]];
 	var confirmUrl = [[@{/orders/confirm}]];
 	var stats = new Array();
@@ -24,10 +26,16 @@
 	orderType[1] = '采购订单';
 	var orderDetailState = new Array();
 	orderDetailState[0] = "未入库";
-	orderDetailState[1] = "已入库";
+	orderDetailState[1] = "已入库";*/
 </script>
 <script type="text/javascript">
-//修改订单的审核状态为已审核
+	var pageUrl = basePath+"/orders/page?state=1";
+	var confirmUrl = basePath+"/orders/confirm";
+	var operator = {field:'operator',title:'操作',align:'center',formatter:function(value,row,index){
+				return "<a href='#' onclick='doConfirm("+row.uuid+")'>确认</a>";
+			}};
+/*
+//修改订单的审核状态为已确认
 function doConfirm(id){
 	var flag = $.messager.confirm("提示","确定要修改此订单为已确认吗?",function(data){
 		if(data){
@@ -125,7 +133,7 @@ $(function(){
 		var data = getFormData("searchForm");
 		$("#grid").datagrid('reload',data );
 	});
-})
+})*/
 
 </script>
 </head>

@@ -9,8 +9,11 @@
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
 <script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/order.js}" ></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
 <script type="text/javascript"  th:inline="javascript">
+	var basePath = [[${#request.contextPath}]];
+/*
 	var pageUrl = [[@{/orders/page}]];
 	var orderDetailUrl = [[@{/orderdetail/}]];
 	var stats = new Array();
@@ -23,9 +26,12 @@
 	orderType[1] = '采购订单';
 	var orderDetailState = new Array();
 	orderDetailState[0] = "未入库";
-	orderDetailState[1] = "已入库";
+	orderDetailState[1] = "已入库";*/
 </script>
 <script type="text/javascript">
+	var operator;
+	var pageUrl = basePath+"/orders/page";
+/*
 	$(function(){
 		$("#grid").datagrid({
 			url:pageUrl,
@@ -107,7 +113,7 @@
 			$("#grid").datagrid('reload',data );
 		});
 	})
-	
+	*/
 
 </script>
 </head>

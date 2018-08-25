@@ -1,22 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
-<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
-<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
-<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
-<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
-<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
-<script type="text/javascript" src="/js/form.js" th:src="@{/js/order.js}" ></script>
-<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
-<script type="text/javascript"  th:inline="javascript">
-	var basePath = [[${#request.contextPath}]];
-/*
-	var pageUrl = [[@{/orders/page(state=0)}]];
-	var orderDetailUrl = [[@{/orderdetail/}]];
-	var checkUrl = [[@{/orders/check}]];
+$(function(){
+	var orderDetailUrl = basePath+"/orderdetail/";
 	var stats = new Array();
 	stats[0] = '未审核';
 	stats[1] = '已审核';
@@ -27,31 +10,7 @@
 	orderType[1] = '采购订单';
 	var orderDetailState = new Array();
 	orderDetailState[0] = "未入库";
-	orderDetailState[1] = "已入库";*/
-</script>
-<script type="text/javascript">
-	var pageUrl = basePath+"/orders/page?state=0";
-	var checkUrl = basePath+"/orders/check";
-	var operator = {field:'operator',title:'操作',align:'center',formatter:function(value,row,index){
-				return "<a href='#' onclick='doCheck("+row.uuid+")'>审核</a>";
-			}};
-/*
-//修改订单的审核状态为已审核
-function doCheck(id){
-	var flag = $.messager.confirm("提示","确定要修改此订单为已审核吗?",function(data){
-		if(data){
-			$.post(checkUrl,{uuid:id},function(data){
-				if(data.code==200){
-					alert(data.data);
-					$("#grid").datagrid("reload");
-				}else{
-					alert(data.msg);
-				}
-			});
-		}
-	});
-}
-$(function(){
+	orderDetailState[1] = "已入库";
 	$("#grid").datagrid({
 		url:pageUrl,
 		title:"订单列表",
@@ -95,9 +54,7 @@ $(function(){
 			{field: 'state', title: '订单状态', align:'center',width:80,formatter:function(value,row,index){
 				return stats[value];
 			}},
-			{field:'operator',title:'操作',align:'center',formatter:function(value,row,index){
-				return "<a href='#' onclick='doCheck("+row.uuid+")'>审核</a>";
-			}}
+			operator
 		]],
 		view: detailview,
 		height:400,
@@ -134,11 +91,36 @@ $(function(){
 		var data = getFormData("searchForm");
 		$("#grid").datagrid('reload',data );
 	});
-})*/
+})
 
-</script>
-</head>
-<body>
-	<table id="grid"></table>
-</body>
-</html>
+//修改订单的审核状态为已审核
+function doCheck(id){
+	var flag = $.messager.confirm("提示","确定要修改此订单为已审核吗?",function(data){
+		if(data){
+			$.post(checkUrl,{uuid:id},function(data){
+				if(data.code==200){
+					alert(data.data);
+					$("#grid").datagrid("reload");
+				}else{
+					alert(data.msg);
+				}
+			});
+		}
+	});
+}
+
+//修改订单的审核状态为已确认
+function doConfirm(id){
+	var flag = $.messager.confirm("提示","确定要修改此订单为已确认吗?",function(data){
+		if(data){
+			$.post(confirmUrl,{uuid:id},function(data){
+				if(data.code==200){
+					alert(data.data);
+					$("#grid").datagrid("reload");
+				}else{
+					alert(data.msg);
+				}
+			});
+		}
+	});
+}
