@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.entor.erp.entity.Emp;
 import com.entor.erp.entity.Orders;
 import com.entor.erp.entity.OrdersDetail;
 
@@ -14,6 +15,9 @@ public interface IOrdersService extends IService<Orders>{
 	boolean addOrderAndOrderDetail(Orders orders,List<OrdersDetail> ordersDetails);
 	
 	//修改商品的审核状态为已审核
-	boolean check(Long id);
+	boolean check(Long uuid,Emp emp);
+	
+	//修改商品的审核状态为已确认
+	boolean confirm(Long uuid,Emp emp);
 
 }

@@ -1,5 +1,6 @@
 package com.entor.erp.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.OrdersMapper;
+import com.entor.erp.entity.Emp;
 import com.entor.erp.entity.Orders;
 import com.entor.erp.entity.OrdersDetail;
 import com.entor.erp.service.IOrdersDetailService;
@@ -60,11 +62,24 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 	}
 
 	@Override
-	public boolean check(Long id) {
+	public boolean check(Long uuid,Emp emp) {
 		Orders orders = new Orders();
-		orders.setUuid(id);
+		orders.setUuid(uuid);
 		//修改订单的审核状态为已审核
 		orders.setState("1");
+		orders.setChecktime(new Date());
+		orders.setChecker(emp);
+		return updateById(orders);
+	}
+
+	@Override
+	public boolean confirm(Long uuid,Emp emp) {
+		Orders orders = new Orders();
+		orders.setUuid(uuid);
+		//修改订单的审核状态为已确认
+		orders.setState("2");
+		orders.setCreater(emp);
+		orders.setCreatetime(new Date());
 		return updateById(orders);
 	}
 

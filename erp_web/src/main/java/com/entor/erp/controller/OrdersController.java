@@ -1,6 +1,5 @@
 package com.entor.erp.controller;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -69,12 +68,32 @@ public class OrdersController {
 		return new ResponseEntity<Map<String,Object>>(body,HttpStatus.OK);
 	}
 	
+	/**
+	 * 修改订单状态为已审核
+	 * @param id 修改订单的uuid
+	 * @return
+	 */
 	@PostMapping("/check")
 	public Result<String> check(@RequestParam(value="uuid",required=false) 
-				@Validated @NotNull(message="商品id不能为空")Long id){
-		if(orderService.check(id))
+				@Validated @NotNull(message="商品uuid不能为空")Long id,HttpSession session){
+		Emp emp = (Emp) session.getAttribute("emp");
+		if(orderService.check(id,emp))
 			return Result.success("审核成功");
 		return Result.error(ResultType.ERROR, "审核失败");
+	}
+	
+	/**
+	 * 修改订单状态为已确认
+	 * @param id 修改订单的uuid
+	 * @return
+	 */
+	@PostMapping("/confirm")
+	public Result<String> confirm(@RequestParam(value="uuid",required=false) 
+				@Validated @NotNull(message="商品uuid不能为空")Long id,HttpSession session){
+		Emp emp = (Emp) session.getAttribute("emp");
+		if(orderService.confirm(id,emp))
+			return Result.success("确认成功");
+		return Result.error(ResultType.ERROR, "确认失败");
 	}
 	
 	/**
@@ -95,7 +114,7 @@ public class OrdersController {
 		Emp emp = (Emp) session.getAttribute("emp");
 		Orders orders = new Orders();
 		orders.setSupplier(supplier);
-		orders.setCreatetime(new Date());
+		orders.setStarttime(new Date());
 		orders.setStarter(emp);
 		orders.setTotalmoney(0.0);//初始化总金额
 		orders.setState("0");//未审核

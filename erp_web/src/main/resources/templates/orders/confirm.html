@@ -11,9 +11,9 @@
 <script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
 <script type="text/javascript"  th:inline="javascript">
-	var pageUrl = [[@{/orders/page(state=0)}]];
+	var pageUrl = [[@{/orders/page(state=1)}]];
 	var orderDetailUrl = [[@{/orderdetail/}]];
-	var checkUrl = [[@{/orders/check}]];
+	var confirmUrl = [[@{/orders/confirm}]];
 	var stats = new Array();
 	stats[0] = '未审核';
 	stats[1] = '已审核';
@@ -28,10 +28,10 @@
 </script>
 <script type="text/javascript">
 //修改订单的审核状态为已审核
-function doCheck(id){
-	var flag = $.messager.confirm("提示","确定要修改此订单为已审核吗?",function(data){
+function doConfirm(id){
+	var flag = $.messager.confirm("提示","确定要修改此订单为已确认吗?",function(data){
 		if(data){
-			$.post(checkUrl,{uuid:id},function(data){
+			$.post(confirmUrl,{uuid:id},function(data){
 				if(data.code==200){
 					alert(data.data);
 					$("#grid").datagrid("reload");
@@ -87,7 +87,7 @@ $(function(){
 				return stats[value];
 			}},
 			{field:'operator',title:'操作',align:'center',formatter:function(value,row,index){
-				return "<a href='#' onclick='doCheck("+row.uuid+")'>审核</a>";
+				return "<a href='#' onclick='doConfirm("+row.uuid+")'>确认</a>";
 			}}
 		]],
 		view: detailview,
