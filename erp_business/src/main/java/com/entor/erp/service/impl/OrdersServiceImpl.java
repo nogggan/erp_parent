@@ -59,4 +59,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 		totalMoney+=money;
 	}
 
+	@Override
+	public boolean check(Long id) {
+		Orders orders = new Orders();
+		orders.setUuid(id);
+		//修改订单的审核状态为已审核
+		orders.setState("1");
+		return updateById(orders);
+	}
+
 }

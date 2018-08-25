@@ -12,5 +12,8 @@ public interface IOrdersService extends IService<Orders>{
 	Page<Orders> getPage(Page<Orders> page,Orders orders);
 	
 	boolean addOrderAndOrderDetail(Orders orders,List<OrdersDetail> ordersDetails);
+	
+	//修改商品的审核状态为已审核
+	boolean check(Long id);
 
 }

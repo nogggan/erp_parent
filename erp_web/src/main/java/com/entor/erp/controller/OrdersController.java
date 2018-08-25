@@ -1,6 +1,7 @@
 package com.entor.erp.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +9,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +32,14 @@ import com.entor.erp.entity.Supplier;
 import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
-import com.entor.erp.service.IOrdersDetailService;
 import com.entor.erp.service.IOrdersService;
+import com.entor.erp.util.ValidatorUtils;
+import com.entor.erp.vo.OrdersDetailVo;
 import com.entor.erp.vo.SupplierVo;
 
 @RestController
 @RequestMapping("/orders")
+@Validated
 public class OrdersController {
 
 	@Autowired
@@ -64,6 +69,21 @@ public class OrdersController {
 		return new ResponseEntity<Map<String,Object>>(body,HttpStatus.OK);
 	}
 	
+	@PostMapping("/check")
+	public Result<String> check(@RequestParam(value="uuid",required=false) 
+				@Validated @NotNull(message="商品id不能为空")Long id){
+		if(orderService.check(id))
+			return Result.success("审核成功");
+		return Result.error(ResultType.ERROR, "审核失败");
+	}
+	
+	/**
+	 * 采购申请
+	 * @param supplierVo 供应商
+	 * @param data 商品详细来源
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/add")
 	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam("json")String data,HttpSession session){
 		Supplier supplier = new Supplier();
@@ -80,10 +100,21 @@ public class OrdersController {
 		orders.setTotalmoney(0.0);//初始化总金额
 		orders.setState("0");//未审核
 		orders.setType("1");//采购订单
-		List<OrdersDetail> ordersDetails = JSONObject.parseArray(data, OrdersDetail.class);
+		List<OrdersDetailVo> ordersDetails = JSONObject.parseArray(data, OrdersDetailVo.class);
 		if(ordersDetails == null || ordersDetails.isEmpty())
 			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
-		if(orderService.addOrderAndOrderDetail(orders, ordersDetails))
+		ValidatorUtils.validatorList(ordersDetails);
+		List<OrdersDetail> details = new ArrayList<>();
+		ordersDetails.forEach(x->{
+			OrdersDetail ordersDetail = new OrdersDetail();
+			try {
+				BeanUtils.copyProperties(ordersDetail, x);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+			details.add(ordersDetail);
+		});
+		if(orderService.addOrderAndOrderDetail(orders, details))
 			return Result.success("处理成功");
 		else
 			return Result.error(ResultType.ORDERS_ORDERS_ERROR, "采购失败");

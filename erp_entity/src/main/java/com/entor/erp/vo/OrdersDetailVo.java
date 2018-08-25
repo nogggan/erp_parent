@@ -2,6 +2,7 @@ package com.entor.erp.vo;
 
 import java.util.Date;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,7 +29,7 @@ public class OrdersDetailVo {
 	@NotNull(message="价钱不能为空")
 	private Double price;
 	
-	@Size(min=1,message="系统检测到商品数量异常")
+	@Min(value=1,message="系统检测到商品数量异常")
 	private Integer num;
 	
 	@NotNull(message="金额不能为空")
