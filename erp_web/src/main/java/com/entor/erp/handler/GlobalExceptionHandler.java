@@ -3,6 +3,8 @@ package com.entor.erp.handler;
 import java.util.List;
 import java.util.stream.Stream;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -40,6 +42,10 @@ public class GlobalExceptionHandler {
 			MethodArgumentTypeMismatchException exception = (MethodArgumentTypeMismatchException) e;
 			String msg = exception.getMessage();
 			return Result.error(ResultType.ARGUMENT_NOT_MATCH, msg);
+		}else if(e instanceof ConstraintViolationException) {
+			ConstraintViolationException exception = (ConstraintViolationException) e;
+			String message = exception.getMessage();
+			return Result.error(ResultType.PARA_ERROR, message.substring(message.indexOf(":")+1));
 		}
 		e.printStackTrace();
 		return Result.error(ResultType.ERROR, "服务器内部错误");
