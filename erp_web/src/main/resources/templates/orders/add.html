@@ -28,6 +28,7 @@
 					type:'combobox',
 					options:{url:orderNameUrl,textField:'name',valueField:'name',onSelect:function(record){
 						bindGoodsData(record);
+						cals();
 					}}
 				}},
 				{field:'price',title:'价格',width:100,align:'center',editor:{
