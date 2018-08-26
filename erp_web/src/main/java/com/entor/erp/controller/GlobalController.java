@@ -50,5 +50,4 @@ public class GlobalController {
 		return "orders/instore";
 	}
 	
-	
 }
