@@ -43,4 +43,12 @@ public class GlobalController {
 		return "orders/confirm";
 	}
 	
+	@GetMapping(path="/order/instore.html")
+	public String toOrdersInStore(HttpSession session) {
+		if(session.getAttribute("emp")==null)
+			return "redirect:/login.html";
+		return "orders/instore";
+	}
+	
+	
 }

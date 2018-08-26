@@ -29,6 +29,8 @@
 	orderDetailState[1] = "已入库";*/
 </script>
 <script type="text/javascript">
+	var isDouble = false;
+	var isFilter = false;
 	var pageUrl = basePath+"/orders/page?state=1";
 	var confirmUrl = basePath+"/orders/confirm";
 	var operator = {field:'operator',title:'操作',align:'center',formatter:function(value,row,index){

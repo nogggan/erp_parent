@@ -136,7 +136,17 @@ public class OrdersController {
 		if(orderService.addOrderAndOrderDetail(orders, details))
 			return Result.success("处理成功");
 		else
-			return Result.error(ResultType.ORDERS_ORDERS_ERROR, "采购失败");
+			return Result.error(ResultType.ORDERS_ERROR, "采购失败");
+	}
+	
+	@PostMapping("/instore")
+	public Result<String> instore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
+							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="商品详细编号不能为空") Long orderDetailUuid,
+							HttpSession session){
+		Emp emp = (Emp) session.getAttribute("emp");
+		if(orderService.instore(storeUuid, orderDetailUuid, emp.getUuid()))
+			return Result.success("入库成功");
+		return Result.error(ResultType.ORDERS_ERROR, "入库失败");
 	}
 	
 }

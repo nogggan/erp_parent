@@ -8,6 +8,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
+/**
+ * 员工表
+ * @author Gan
+ *
+ */
 @Data
 public class Emp {
 

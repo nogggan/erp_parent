@@ -12,6 +12,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
+/*
+ * 订单表
+ */
 @Data
 @KeySequence(value="ORDERS_SEQ")
 @TableName(resultMap="ordersMap")

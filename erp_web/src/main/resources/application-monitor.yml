@@ -1,5 +1,13 @@
 druid:
   monitor:
     serviceAndDaoId:
-    - userServiceImpl #用户服务监控
     - depServiceImpl #部门服务监控
+    - empServiceImpl #员工服务监控
+    - goodsServiceImpl #商品服务监控
+    - menuServiceImpl #菜单服务监控
+    - ordersDetailServiceImpl #订单详细服务监控
+    - orderServiceImpl #订单服务监控
+    - storeDetailServiceImpl #商品仓库详细服务监控
+    - storeOperServiceImpl #商品仓库操作详细服务监控
+    - storeServiceImpl #仓库服务监控
+    - supplierServiceImpl #供应商服务监控

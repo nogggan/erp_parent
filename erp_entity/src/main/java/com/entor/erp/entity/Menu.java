@@ -7,6 +7,11 @@ import com.baomidou.mybatisplus.annotations.TableId;
 
 import lombok.Data;
 
+/**
+ * 菜单表
+ * @author Gan
+ *
+ */
 @Data
 public class Menu {
 

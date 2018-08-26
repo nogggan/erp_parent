@@ -11,6 +11,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
+/**
+ * 订单详细表
+ * @author Gan
+ *
+ */
 @Data
 @TableName(value="ORDERDETAIL")
 @KeySequence(value="ORDERDETAIL_SEQ")
@@ -32,9 +37,9 @@ public class OrdersDetail {
 	@JsonSerialize(using=DateSerializer.class)
 	private Date endtime;
 	
-	private Integer ender;
+	private Long ender;
 	
-	private Integer storeuuid;
+	private Long storeuuid;
 	
 	/**
 	 * 0 ： 未入库

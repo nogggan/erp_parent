@@ -19,5 +19,8 @@ public interface IOrdersService extends IService<Orders>{
 	
 	//修改商品的审核状态为已确认
 	boolean confirm(Long uuid,Emp emp);
-
+	
+	//商品入库
+	boolean instore(Long storeUuid,Long orderDetailUuid,Long empUuid);
+	
 }

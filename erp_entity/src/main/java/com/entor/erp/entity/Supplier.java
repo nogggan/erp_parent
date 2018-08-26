@@ -5,6 +5,11 @@ import com.baomidou.mybatisplus.enums.IdType;
 
 import lombok.Data;
 
+/**
+ * 供应商表
+ * @author Gan
+ *
+ */
 @Data
 public class Supplier {
 	

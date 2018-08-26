@@ -79,7 +79,28 @@ $(function(){
 						return orderDetailState[value];
 					}}
 				]],
-				singleSelect:true
+				onDblClickRow:function(rowIndex,rowData){
+					if(isDouble){
+						$("#orderWindow").window('open');
+						$("#goodsuuid").html(rowData.goodsuuid);
+						$("#goodsname").html(rowData.goodsname);
+						$("#num").html(rowData.num);
+						$("#id").val(rowData.uuid);
+						dblSelectIndex = rowIndex;
+						expandRowIndex = index;
+					}
+				},
+				singleSelect:"true",
+				loadFilter:function(data){
+					var value = {total:0,rows:[]};
+					for(var i=0;i<data.rows.length;i++){
+						if((isFilter&&data.rows[i].state=="0")||!isFilter){
+							value.rows.push(data.rows[i]);
+							value.total++;
+						}
+					}
+					return value;
+				}
 			})
 		},
 		singleSelect: "true",
@@ -119,6 +140,27 @@ function doConfirm(id){
 					$("#grid").datagrid("reload");
 				}else{
 					alert(data.msg);
+				}
+			});
+		}
+	});
+}
+
+//订单入库
+function doInStore(){
+	var formData = getFormData("orderForm");
+	var flag = $.messager.confirm("提示","确定要入库吗?",function(data){
+		if(data){
+			$.post(instoreUrl,formData,function(result){
+				if(result.code==200){
+					$("#orderWindow").window("close");
+					$("#ddv_"+expandRowIndex).datagrid("deleteRow",dblSelectIndex);
+					if($("#ddv_"+expandRowIndex).datagrid("getRows").length==0){
+						$("#grid").datagrid("deleteRow",expandRowIndex);
+					}
+					alert(result.data);
+				}else{
+					alert(result.msg);
 				}
 			});
 		}

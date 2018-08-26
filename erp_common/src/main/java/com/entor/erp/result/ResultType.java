@@ -14,5 +14,5 @@ public interface ResultType {
 
 	Integer ARGUMENT_NOT_MATCH = 407;
 	
-	Integer ORDERS_ORDERS_ERROR = 408;
+	Integer ORDERS_ERROR = 408;
 }

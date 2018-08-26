@@ -5,6 +5,11 @@ import com.baomidou.mybatisplus.annotations.TableId;
 
 import lombok.Data;
 
+/**
+ * 部门表
+ * @author Gan
+ *
+ */
 @Data
 @KeySequence(value="DEP_SEQ")
 public class Dep {

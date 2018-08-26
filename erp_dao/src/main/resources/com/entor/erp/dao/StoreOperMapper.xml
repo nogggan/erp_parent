@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.erp.dao.StoreOperMapper">
+  	
+  	<resultMap type="com.entor.erp.entity.StoreOper" id="storeOperMap">
+  		<id property="uuid" column="uuid"/>
+  		<result property="opertime" column="opertime"/>
+  		<result property="num" column="num"/>
+  		<result property="type" column="type"/>
+  		<association property="emp" column="empuuid" select="com.entor.erp.dao.EmpMapper.selectById"></association>
+  		<association property="store" column="storeuuid" select="com.entor.erp.dao.StoreMapper.selectById"></association>
+  		<association property="goods" column="goodsuuid" select="com.entor.erp.dao.GoodsMapper.selectById"></association>
+  	</resultMap>
+  		
+</mapper>
