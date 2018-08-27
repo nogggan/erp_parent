@@ -1,13 +1,19 @@
 $(function(){
 	var orderDetailUrl = basePath+"/orderdetail/";
 	var stats = new Array();
-	stats[0] = '未审核';
-	stats[1] = '已审核';
-	stats[2] = '已确认';
-	stats[3] = '已结束';
+	var odersType = Request['type'];
+	if(odersType==1){
+		stats[0] = '未审核';
+		stats[1] = '已审核';
+		stats[2] = '已确认';
+		stats[3] = '已入库';
+	}else{
+		stats[0] = '未入库';
+		stats[1] = '已入库';
+	}
 	var orderType = new Array();
-	orderType[0] = '销售订单';
 	orderType[1] = '采购订单';
+	orderType[2] = '销售订单';
 	var orderDetailState = new Array();
 	orderDetailState[0] = "未入库";
 	orderDetailState[1] = "已入库";
@@ -20,7 +26,7 @@ $(function(){
 			{field: 'createtime', title: '生成日期', align:'center',width: 150},
 			{field: 'checktime', title: '检查日期', width: 150, align:'center'},
 			{field: 'starttime', title: '开始日期', width: 150, align:'center'},
-			{field: 'endtime', title: '结束日期', width: 150, align:'center'},
+			{field: 'endtime', title: '入库日期', width: 150, align:'center'},
 			{field: 'type', title: '订单类型', width: 80, align:'center',formatter:function(value,row,index){
 				return orderType[value];
 			}},
@@ -50,7 +56,9 @@ $(function(){
 				else
 					return value.name+" ("+value.address+") ";
 			}},
-			{field: 'totalmoney', title: '总金额', width: 80, align:'center'},
+			{field: 'totalmoney', title: '总金额', width: 80, align:'center',formatter(value,row,index){
+				return OSREC.CurrencyFormatter.format(value,{currency:'CNY'});
+			}},
 			{field: 'state', title: '订单状态', align:'center',width:80,formatter:function(value,row,index){
 				return stats[value];
 			}},
@@ -69,12 +77,26 @@ $(function(){
 					{field: 'uuid', title: '编号', width: 100,align:'center'},
 					{field: 'goodsuuid', title: '商品编号', width: 100,align:'center'},
 					{field: 'goodsname', title: '商品名称', width: 100,align:'center'},
-					{field: 'price', title: '价格', width: 100,align:'center'},
+					{field: 'price', title: '价格', width: 100,align:'center',formatter:function(value,row,index){
+						return OSREC.CurrencyFormatter.format(value,{currency:'CNY'});
+					}},
 					{field: 'num', title: '数量', width: 100,align:'center'},
-					{field: 'money', title: '金额', width: 100,align:'center'},
-					{field: 'endtime', title: '结束日期', width: 150,align:'center'},
-					{field: 'ender', title: '仓管员', width: 100,align:'center'},
-					{field: 'storeuuid', title: '仓库编号', width: 100,align:'center'},
+					{field: 'money', title: '金额', width: 100,align:'center',formatter:function(value,row,index){
+						return OSREC.CurrencyFormatter.format(value,{currency:'CNY'});
+					}},
+					{field: 'endtime', title: '入库日期', width: 150,align:'center'},
+					{field: 'ender', title: '仓管员', width: 100,align:'center',formatter:function(value,row,index){
+						if(value != null)
+							return value.name;
+						else
+							return "";
+					}},
+					{field: 'store', title: '仓库', width: 100,align:'center',formatter:function(value,row,index){
+						if(value != null)
+							return value.name;
+						else
+							return "";
+					}},
 					{field: 'state', title: '状态', width: 100,align:'center',formatter:function(value,row,index){
 						return orderDetailState[value];
 					}}

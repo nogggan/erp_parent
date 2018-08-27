@@ -1,6 +1,7 @@
 package com.entor.erp.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.gan.spring.boot.autoconfigure.redis.RedisService;
@@ -27,6 +28,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		List<Menu> list = redisService.get(MenuRedisKey.MENU,menu.getPid(),List.class);
 		if(list == null) {
 			EntityWrapper<Menu> wrapper = new EntityWrapper<>(menu);
+			wrapper.orderDesc(Arrays.asList("menuid"));
 			List<Menu> menus = selectList(wrapper);
 			List<Menu> linkMenus = new ArrayList<>();
 			menus.stream().forEach(m->{

@@ -3,6 +3,7 @@ package com.entor.erp.entity;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotations.KeySequence;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -17,7 +18,7 @@ import lombok.Data;
  *
  */
 @Data
-@TableName(value="ORDERDETAIL")
+@TableName(value="ORDERDETAIL",resultMap="ordersDetailMap")
 @KeySequence(value="ORDERDETAIL_SEQ")
 public class OrdersDetail {
 	
@@ -37,9 +38,11 @@ public class OrdersDetail {
 	@JsonSerialize(using=DateSerializer.class)
 	private Date endtime;
 	
-	private Long ender;
+	@TableField(el="ender.uuid",value="ender")
+	private Emp ender;
 	
-	private Long storeuuid;
+	@TableField(el="store.uuid",value="storeuuid")
+	private Store store;
 	
 	/**
 	 * 0 ： 未入库

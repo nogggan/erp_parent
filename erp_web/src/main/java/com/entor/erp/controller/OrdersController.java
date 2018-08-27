@@ -114,8 +114,8 @@ public class OrdersController {
 		Emp emp = (Emp) session.getAttribute("emp");
 		Orders orders = new Orders();
 		orders.setSupplier(supplier);
-		orders.setStarttime(new Date());
-		orders.setStarter(emp);
+		orders.setCreatetime(new Date());
+		orders.setCreater(emp);
 		orders.setTotalmoney(0.0);//初始化总金额
 		orders.setState("0");//未审核
 		orders.setType("1");//采购订单

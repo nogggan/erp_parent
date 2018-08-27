@@ -94,8 +94,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 		orders.setUuid(uuid);
 		//修改订单的审核状态为已确认
 		orders.setState("2");
-		orders.setCreater(emp);
-		orders.setCreatetime(new Date());
+		orders.setStarter(emp);
+		orders.setStarttime(new Date());
 		return updateById(orders);
 	}
 
@@ -140,9 +140,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 			storeOper.setType("1");//1代表入库
 			//添加存储操作记录
 			if(storeOperService.insert(storeOper)) {
-				ordersDetail.setEnder(empUuid);
+				ordersDetail.setEnder(store.getEmp());
 				ordersDetail.setEndtime(new Date());
-				ordersDetail.setStoreuuid(storeUuid);
+				ordersDetail.setStore(store);
 				ordersDetail.setState("1");//1代表已入库
 				//修改订单详细状态为已入库
 				if(orderDetailService.updateById(ordersDetail)) {

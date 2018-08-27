@@ -36,8 +36,8 @@ public class Orders {
 	private Date endtime;
 	
 	/**
-	 * 0：销售订单
 	 * 1：采购订单
+	 * 2：销售订单
 	 */
 	private String type;
 	
@@ -58,11 +58,15 @@ public class Orders {
 	
 	private Double totalmoney;
 	
-	/**
+	/**采购订单
 	 * 0: 未审核
 	 * 1:已审核
 	 * 2:已确认
 	 * 3:已结束
+	 * 
+	 * 销售订单
+	 * 0：未入库
+	 * 1：已入库
 	 */
 	private String state;
 
