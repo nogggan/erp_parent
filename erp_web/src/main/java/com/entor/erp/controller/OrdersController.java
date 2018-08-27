@@ -104,7 +104,6 @@ public class OrdersController {
 	 * @param session
 	 * @return
 	 */
-	@SuppressWarnings("unused")
 	@PostMapping("/add")
 	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam(value="json",required=false)String data,HttpSession session){
 		if(StringUtils.isEmpty(data))
@@ -125,7 +124,7 @@ public class OrdersController {
 		orders.setType("1");//采购订单
 		List<OrdersDetailVo> ordersDetails = null;
 		try {
-			JSONObject.parseArray(data, OrdersDetailVo.class);
+			ordersDetails = JSONObject.parseArray(data, OrdersDetailVo.class);
 		} catch (Exception e2) {
 			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
 		}
@@ -143,7 +142,7 @@ public class OrdersController {
 			details.add(ordersDetail);
 		});
 		if(orderService.addOrderAndOrderDetail(orders, details))
-			return Result.success("处理成功");
+			return Result.success("采购成功");
 		else
 			return Result.error(ResultType.ORDERS_ERROR, "采购失败");
 	}

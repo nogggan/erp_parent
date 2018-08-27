@@ -26,9 +26,9 @@ public class Goods {
 	
 	private String unit;
 	
-	private Long inprice;
+	private Double inprice;
 	
-	private Long outprice;
+	private Double outprice;
 	
 	private Long goodstypeuuid;
 	

@@ -14,11 +14,11 @@
 	var orderNameUrl = [[@{/goods/all}]];
 	var supplierUrl = [[@{/supplier/all}]];
 	var addOrderUrl = [[@{/orders/add}]];
-	var odersType = [[${param.type}]];
+	var ordersType = [[${param.type}]];
 </script>
 <script type="text/javascript" >
 	var lastRowIndex;
-	if(odersType=='1')
+	if(ordersType=='1')
 		supplierUrl=supplierUrl+"?type=1";
 	else
 		supplierUrl=supplierUrl+"?type=2";
@@ -152,7 +152,10 @@
 	}
 	function bindGoodsData(record){
 		var priceEditor = $("#grid").datagrid("getEditor",{index:lastRowIndex,field:'price'});
-		$(priceEditor.target).val(record.outprice);
+		if(ordersType=='1')
+			$(priceEditor.target).val(record.inprice);
+		else if(ordersType=='2')
+			$(priceEditor.target).val(record.outprice);
 		var goodsUuidEditor = $("#grid").datagrid("getEditor",{index:lastRowIndex,field:'goodsuuid'});
 		$(goodsUuidEditor.target).val(record.uuid);
 	}

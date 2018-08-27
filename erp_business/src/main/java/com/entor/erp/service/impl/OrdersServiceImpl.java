@@ -22,6 +22,7 @@ import com.entor.erp.entity.StoreOper;
 import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
+import com.entor.erp.service.IGoodsService;
 import com.entor.erp.service.IOrdersDetailService;
 import com.entor.erp.service.IOrdersService;
 import com.entor.erp.service.IStoreDetailService;
@@ -43,6 +44,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 	
 	@Autowired
 	private IStoreOperService storeOperService;
+	
+	@Autowired
+	private IGoodsService goodsService;
 
 	@Override
 	public Page<Orders> getPage(Page<Orders> page, Orders orders) {
@@ -56,6 +60,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 	@Transactional
 	@Override
 	public boolean addOrderAndOrderDetail(Orders orders, List<OrdersDetail> ordersDetails) {
+		ordersDetails.forEach(x->{
+			Long goodsUuid = x.getGoodsuuid();
+			Goods goods = goodsService.selectById(goodsUuid);
+			if(goods.getInprice().doubleValue()!=x.getPrice().doubleValue())
+				throw new GlobalException(Result.error(ResultType.ERROR, "当前操作不合法，故此警告，如有下次，将封停1小时"));
+		});
 		//计算订单金额
 		ordersDetails.forEach(orderDetail->{
 			double price = orderDetail.getPrice();
