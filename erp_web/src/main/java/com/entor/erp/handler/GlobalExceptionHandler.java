@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
 			return Result.error(ResultType.ARGUMENT_NOT_MATCH, msg);
 		}else if(e instanceof ConstraintViolationException) {
 			ConstraintViolationException exception = (ConstraintViolationException) e;
-			String message = exception.getMessage();
+			String message = exception.getConstraintViolations().iterator().next().getMessage();
 			return Result.error(ResultType.PARA_ERROR, message.substring(message.indexOf(":")+1));
 		}
 		e.printStackTrace();

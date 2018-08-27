@@ -14,9 +14,14 @@
 	var orderNameUrl = [[@{/goods/all}]];
 	var supplierUrl = [[@{/supplier/all}]];
 	var addOrderUrl = [[@{/orders/add}]];
+	var odersType = [[${param.type}]];
 </script>
 <script type="text/javascript" >
 	var lastRowIndex;
+	if(odersType=='1')
+		supplierUrl=supplierUrl+"?type=1";
+	else
+		supplierUrl=supplierUrl+"?type=2";
 	$(function(){
 		$("#grid").datagrid({
 			columns:[[
@@ -155,7 +160,7 @@
 </head>
 <body>
 	<form id="searchForm">
-		供应商：<input id="supplier" name="uuid"/>
+		<span th:text="${#strings.equals(param.type,'1')}?'供应商':'客户'">供应商</span>:<input id="supplier" name="uuid"/>
 	</form><br/>
 	<table id="grid"></table>
 	<span id="totalMoney"></span><br/>

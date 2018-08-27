@@ -14,6 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,8 +104,11 @@ public class OrdersController {
 	 * @param session
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	@PostMapping("/add")
-	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam("json")String data,HttpSession session){
+	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam(value="json",required=false)String data,HttpSession session){
+		if(StringUtils.isEmpty(data))
+			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
 		Supplier supplier = new Supplier();
 		try {
 			BeanUtils.copyProperties(supplier, supplierVo);
@@ -119,7 +123,12 @@ public class OrdersController {
 		orders.setTotalmoney(0.0);//初始化总金额
 		orders.setState("0");//未审核
 		orders.setType("1");//采购订单
-		List<OrdersDetailVo> ordersDetails = JSONObject.parseArray(data, OrdersDetailVo.class);
+		List<OrdersDetailVo> ordersDetails = null;
+		try {
+			JSONObject.parseArray(data, OrdersDetailVo.class);
+		} catch (Exception e2) {
+			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
+		}
 		if(ordersDetails == null || ordersDetails.isEmpty())
 			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
 		ValidatorUtils.validatorList(ordersDetails);
@@ -141,7 +150,7 @@ public class OrdersController {
 	
 	@PostMapping("/instore")
 	public Result<String> instore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
-							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="商品详细编号不能为空") Long orderDetailUuid,
+							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
 							HttpSession session){
 		Emp emp = (Emp) session.getAttribute("emp");
 		if(orderService.instore(storeUuid, orderDetailUuid, emp.getUuid()))
