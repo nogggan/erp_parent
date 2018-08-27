@@ -98,7 +98,7 @@ public class OrdersController {
 	}
 	
 	/**
-	 * 采购申请
+	 * 采购申请或者销售入库
 	 * @param supplierVo 供应商
 	 * @param data 商品详细来源
 	 * @param session
@@ -115,13 +115,13 @@ public class OrdersController {
 			e.printStackTrace();
 		} 
 		Emp emp = (Emp) session.getAttribute("emp");
-		Orders orders = new Orders();
-		orders.setSupplier(supplier);
-		orders.setCreatetime(new Date());
-		orders.setCreater(emp);
-		orders.setTotalmoney(0.0);//初始化总金额
-		orders.setState("0");//未审核
-		orders.setType("1");//采购订单
+		Orders orders = new Orders()
+				.setSupplier(supplier)
+				.setCreatetime(new Date())
+				.setCreater(emp)
+				.setTotalmoney(0.0)		//初始化总金额
+				.setState("0")				//未审核
+				.setType(supplier.getType());	//采购订单或者销售订单
 		List<OrdersDetailVo> ordersDetails = null;
 		try {
 			ordersDetails = JSONObject.parseArray(data, OrdersDetailVo.class);

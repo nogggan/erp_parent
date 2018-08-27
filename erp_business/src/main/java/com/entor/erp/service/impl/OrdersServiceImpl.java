@@ -63,7 +63,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 		ordersDetails.forEach(x->{
 			Long goodsUuid = x.getGoodsuuid();
 			Goods goods = goodsService.selectById(goodsUuid);
-			if(goods.getInprice().doubleValue()!=x.getPrice().doubleValue())
+			String type = orders.getType();
+			double goodsPrice = type.equals("1")?goods.getInprice().doubleValue():goods.getOutprice().doubleValue();
+			if(goodsPrice!=x.getPrice().doubleValue())
 				throw new GlobalException(Result.error(ResultType.ERROR, "当前操作不合法，故此警告，如有下次，将封停1小时"));
 		});
 		//计算订单金额

@@ -11,11 +11,13 @@ import com.entor.erp.serializer.DateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /*
  * 订单表
  */
 @Data
+@Accessors(chain=true)
 @KeySequence(value="ORDERS_SEQ")
 @TableName(resultMap="ordersMap")
 public class Orders {
