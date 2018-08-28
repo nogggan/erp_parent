@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 商品表

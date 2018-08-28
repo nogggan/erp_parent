@@ -23,4 +23,7 @@ public interface IOrdersService extends IService<Orders>{
 	//商品入库
 	boolean instore(Long storeUuid,Long orderDetailUuid,Long empUuid);
 	
+	//商品出库
+	boolean outstore(Long storeUuid,Long orderDetailUuid,Long empUuid);
+	
 }

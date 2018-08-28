@@ -44,9 +44,13 @@ public class OrdersDetail {
 	@TableField(el="store.uuid",value="storeuuid")
 	private Store store;
 	
-	/**
+	/**采购
 	 * 0 ： 未入库
 	 * 1 ： 已入库
+	 * 
+	 * 销售
+	 * 0：未出库
+	 * 1：已出库
 	 */
 	private String state;
 	

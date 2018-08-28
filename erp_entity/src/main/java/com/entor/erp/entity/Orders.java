@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
  * 订单表
  */
 @Data
-@Accessors(chain=true)
 @KeySequence(value="ORDERS_SEQ")
 @TableName(resultMap="ordersMap")
 public class Orders {
@@ -67,8 +66,8 @@ public class Orders {
 	 * 3:已结束
 	 * 
 	 * 销售订单
-	 * 0：未入库
-	 * 1：已入库
+	 * 0：未出库
+	 * 1：已出库
 	 */
 	private String state;
 

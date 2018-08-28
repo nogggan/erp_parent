@@ -20,8 +20,8 @@ $(function(){
 	}else if(ordersType==2){
 		stats[0] = '未出库';
 		stats[1] = '已出库';
-		orderDetailState[0] = "未出库";
-		orderDetailState[1] = "已出库";
+		orderDetailState[0] = "未揽收";
+		orderDetailState[1] = "已揽收";
 		endTimeName = "出库日期";
 		supplierName = "客户";
 	}
@@ -92,7 +92,7 @@ $(function(){
 					{field: 'money', title: '金额', width: 100,align:'center',formatter:function(value,row,index){
 						return OSREC.CurrencyFormatter.format(value,{currency:'CNY'});
 					}},
-					{field: 'endtime', title: '入库日期', width: 150,align:'center'},
+					{field: 'endtime', title: endTimeName, width: 150,align:'center'},
 					{field: 'ender', title: '仓管员', width: 100,align:'center',formatter:function(value,row,index){
 						if(value != null)
 							return value.name;
@@ -188,6 +188,27 @@ function doInStore(){
 	var flag = $.messager.confirm("提示","确定要入库吗?",function(data){
 		if(data){
 			$.post(instoreUrl,formData,function(result){
+				if(result.code==200){
+					$("#orderWindow").window("close");
+					$("#ddv_"+expandRowIndex).datagrid("deleteRow",dblSelectIndex);
+					if($("#ddv_"+expandRowIndex).datagrid("getRows").length==0){
+						$("#grid").datagrid("deleteRow",expandRowIndex);
+					}
+					alert(result.data);
+				}else{
+					alert(result.msg);
+				}
+			});
+		}
+	});
+}
+
+//订单出库
+function doOutStore(){
+	var formData = getFormData("orderForm");
+	var flag = $.messager.confirm("提示","确定要出库吗?",function(data){
+		if(data){
+			$.post(outstoreUrl,formData,function(result){
 				if(result.code==200){
 					$("#orderWindow").window("close");
 					$("#ddv_"+expandRowIndex).datagrid("deleteRow",dblSelectIndex);

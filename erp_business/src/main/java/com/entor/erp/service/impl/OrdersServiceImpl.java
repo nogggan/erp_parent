@@ -182,4 +182,63 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 		return false;
 	}
 
+	@Transactional
+	@Override
+	public boolean outstore(Long storeUuid, Long orderDetailUuid, Long empUuid) {
+		//查询对应的订单详情信息
+		OrdersDetail ordersDetail = orderDetailService.selectById(orderDetailUuid);
+		if(ordersDetail==null) throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s", "订单详细记录不存在")));
+		//查询对应的仓库信息
+		Store store = storeService.selectById(storeUuid);
+		if(store==null) throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s", "仓库不存在")));
+		//查询仓库存储商品的信息
+		StoreDetail storeDetail = storeDetailService.findByStoreAndGoods(storeUuid, ordersDetail.getGoodsuuid());
+		if(storeDetail==null) throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s商品库存不足",store.getName())));
+		//减库存
+		Integer dbStoreCount = storeDetail.getNum();
+		Integer outStoreCount = ordersDetail.getNum();
+		if(dbStoreCount < outStoreCount)
+			throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s商品库存不足",store.getName())));
+		if(storeDetailService.minusStock(storeDetail, outStoreCount)) {
+			//修改订单状态
+			Emp emp = new Emp();
+			emp.setUuid(store.getEmp().getUuid());
+			ordersDetail.setEnder(emp);
+			ordersDetail.setEndtime(new Date());
+			ordersDetail.setStore(store);
+			ordersDetail.setState("1");//修改销售订单状态为已出库
+			if(orderDetailService.updateById(ordersDetail)) {
+				//添加仓库操作记录
+				Goods goods = new Goods();
+				goods.setUuid(ordersDetail.getGoodsuuid());
+				StoreOper storeOper = new StoreOper();
+				storeOper.setGoods(goods);
+				storeOper.setOpertime(new Date());
+				storeOper.setStore(store);
+				storeOper.setNum(outStoreCount);
+				storeOper.setType("2");//type为2代表出库
+				storeOper.setEmp(emp);
+				if(storeOperService.insert(storeOper)){
+					//扫描OrdersDetail对应订单的所有OrdersDetail是否全部出库，如果是设置该OrdersDetail对应的订单的状态设为已出库
+					if(!orderDetailService.isExistsNotInstoreByOrderId(ordersDetail.getOrdersuuid())) {
+						//如果不存在，设置订单状态为已出库
+						Orders orders = new Orders();
+						orders.setUuid(ordersDetail.getOrdersuuid());
+						orders.setEnder(emp);
+						orders.setEndtime(new Date());
+						orders.setState("1");
+						if(updateById(orders))
+							return true;
+						else
+							throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s", "更新订单状态异常，请重新尝试")));
+					}else
+						return true;
+				}else
+					throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s", "添加库存操作异常，请重新尝试")));
+			}else
+				throw new GlobalException(Result.error(ResultType.ORDERS_ERROR,String.format("销售订单出库失败，原因:%s", "更新订单详细状态异常，请重新尝试")));
+		}
+		return false;
+	}
+
 }

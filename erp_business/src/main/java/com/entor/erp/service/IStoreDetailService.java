@@ -7,4 +7,6 @@ public interface IStoreDetailService extends IService<StoreDetail>{
 	
 	StoreDetail findByStoreAndGoods(Long storeUuid,Long goodsUuid);
 
+	boolean minusStock(StoreDetail storeDetail,Integer outNum);
+	
 }

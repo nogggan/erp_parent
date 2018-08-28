@@ -22,5 +22,5 @@ public class OrdersDetailServiceImpl extends ServiceImpl<OrdersDetailMapper, Ord
 		List<OrdersDetail> result = selectList(new EntityWrapper<OrdersDetail>(ordersDetail));
 		return result!=null&&result.size()>0;
 	}
-	
+
 }

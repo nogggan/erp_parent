@@ -20,4 +20,9 @@ public class StoreDetailServiceImpl extends ServiceImpl<StoreDetailMapper, Store
 		return selectOne(wrapper);
 	}
 
+	@Override
+	public boolean minusStock(StoreDetail storeDetail, Integer outNum) {
+		return baseMapper.minusStoreCount(storeDetail, outNum)==1;
+	}
+
 }

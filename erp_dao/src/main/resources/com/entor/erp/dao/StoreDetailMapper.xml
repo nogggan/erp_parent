@@ -10,5 +10,9 @@
   		<association property="store" column="storeuuid" select="com.entor.erp.dao.StoreMapper.selectById"></association>
   		<association property="goods" column="goodsuuid" select="com.entor.erp.dao.GoodsMapper.selectById"></association>
   	</resultMap>
+  	
+  	<update id="minusStoreCount">
+  		update STOREDETAIL set num = num-#{outNum} where storeuuid=#{storeDetail.store.uuid} and goodsuuid=#{storeDetail.goods.uuid} and num>0 and num>#{outNum}
+  	</update>
   		
 </mapper>

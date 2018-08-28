@@ -115,13 +115,13 @@ public class OrdersController {
 			e.printStackTrace();
 		} 
 		Emp emp = (Emp) session.getAttribute("emp");
-		Orders orders = new Orders()
-				.setSupplier(supplier)
-				.setCreatetime(new Date())
-				.setCreater(emp)
-				.setTotalmoney(0.0)		//初始化总金额
-				.setState("0")				//未审核
-				.setType(supplier.getType());	//采购订单或者销售订单
+		Orders orders = new Orders();
+		orders.setSupplier(supplier);
+		orders.setCreatetime(new Date());
+		orders.setCreater(emp);
+		orders.setTotalmoney(0.0)	;	//初始化总金额
+		orders.setState("0");			//未审核
+		orders.setType(supplier.getType());	//采购订单或者销售订单
 		List<OrdersDetailVo> ordersDetails = null;
 		try {
 			ordersDetails = JSONObject.parseArray(data, OrdersDetailVo.class);
@@ -142,11 +142,18 @@ public class OrdersController {
 			details.add(ordersDetail);
 		});
 		if(orderService.addOrderAndOrderDetail(orders, details))
-			return Result.success("采购成功");
+			return supplierVo.getType().equals("1")?Result.success("采购成功"):Result.success("销售订单录入成功");
 		else
-			return Result.error(ResultType.ORDERS_ERROR, "采购失败");
+			return supplierVo.getType().equals("1")?Result.error(ResultType.ORDERS_ERROR, "采购失败"):Result.error(ResultType.ORDERS_ERROR, "销售订单录入失败");
 	}
 	
+	/**
+	 * 订单入库
+	 * @param storeUuid 仓库编号
+	 * @param orderDetailUuid	订单详细编号
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/instore")
 	public Result<String> instore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
@@ -155,6 +162,17 @@ public class OrdersController {
 		if(orderService.instore(storeUuid, orderDetailUuid, emp.getUuid()))
 			return Result.success("入库成功");
 		return Result.error(ResultType.ORDERS_ERROR, "入库失败");
+	}
+	
+	
+	@PostMapping("/outstore")
+	public Result<String> outstore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
+							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
+							HttpSession session){
+		Emp emp = (Emp) session.getAttribute("emp");
+		if(orderService.outstore(storeUuid, orderDetailUuid, emp.getUuid()))
+			return Result.success("销售订单出库成功");
+		return Result.error(ResultType.ERROR, "销售订单出库失败，请重新尝试");
 	}
 	
 }

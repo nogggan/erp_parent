@@ -7,6 +7,7 @@ import com.entor.erp.serializer.DateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 员工表

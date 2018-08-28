@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 库存操作记录表
