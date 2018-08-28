@@ -164,6 +164,7 @@
 <body>
 	<form id="searchForm">
 		<span th:text="${#strings.equals(param.type,'1')}?'供应商':'客户'">供应商</span>:<input id="supplier" name="uuid"/>
+		<input type="hidden" name="type" th:value="${param.type}"/>
 	</form><br/>
 	<table id="grid"></table>
 	<span id="totalMoney"></span><br/>

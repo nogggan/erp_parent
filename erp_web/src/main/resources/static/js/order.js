@@ -1,22 +1,30 @@
 $(function(){
 	var orderDetailUrl = basePath+"/orderdetail/";
 	var stats = new Array();
-	var odersType = Request['type'];
-	if(odersType==1){
-		stats[0] = '未审核';
-		stats[1] = '已审核';
-		stats[2] = '已确认';
-		stats[3] = '已入库';
-	}else{
-		stats[0] = '未入库';
-		stats[1] = '已入库';
-	}
+	var ordersType = Request['type'];
 	var orderType = new Array();
 	orderType[1] = '采购订单';
 	orderType[2] = '销售订单';
 	var orderDetailState = new Array();
-	orderDetailState[0] = "未入库";
-	orderDetailState[1] = "已入库";
+	var endTimeName; // 如果type=1显示入库日期，type=2显示出库日期
+	var supplierName; // 如果type=1显示供应商，type=2显示客户
+	if(ordersType==1){
+		stats[0] = '未审核';
+		stats[1] = '已审核';
+		stats[2] = '已确认';
+		stats[3] = '已入库';
+		orderDetailState[0] = "未入库";
+		orderDetailState[1] = "已入库";
+		endTimeName = "入库日期";
+		supplierName="供应商";
+	}else if(ordersType==2){
+		stats[0] = '未出库';
+		stats[1] = '已出库';
+		orderDetailState[0] = "未出库";
+		orderDetailState[1] = "已出库";
+		endTimeName = "出库日期";
+		supplierName = "客户";
+	}
 	$("#grid").datagrid({
 		url:pageUrl,
 		title:"订单列表",
@@ -26,7 +34,7 @@ $(function(){
 			{field: 'createtime', title: '生成日期', align:'center',width: 150},
 			{field: 'checktime', title: '检查日期', width: 150, align:'center'},
 			{field: 'starttime', title: '开始日期', width: 150, align:'center'},
-			{field: 'endtime', title: '入库日期', width: 150, align:'center'},
+			{field: 'endtime', title: endTimeName, width: 150, align:'center'},
 			{field: 'type', title: '订单类型', width: 80, align:'center',formatter:function(value,row,index){
 				return orderType[value];
 			}},
@@ -50,7 +58,7 @@ $(function(){
 					return "";
 				else
 					return row.ender.name}},
-			{field: 'supplier', title: '供应商', width: 200, align:'center',formatter:function(value,row,index){
+			{field: 'supplier', title: supplierName, width: 200, align:'center',formatter:function(value,row,index){
 				if(value == null)
 					return "";
 				else
@@ -130,6 +138,12 @@ $(function(){
 		pageSize: '5',
 		pageList: [5, 10, 15, 20]
 	});
+	if (Request['type'] == 2) {
+		$('#grid').datagrid('hideColumn', 'checktime');
+		$('#grid').datagrid('hideColumn', 'starttime');
+		$('#grid').datagrid('hideColumn', 'checker');
+		$('#grid').datagrid('hideColumn', 'starter');
+	}
 	$("#searchBtn").bind('click', function() {
 		var data = getFormData("searchForm");
 		$("#grid").datagrid('reload',data );
