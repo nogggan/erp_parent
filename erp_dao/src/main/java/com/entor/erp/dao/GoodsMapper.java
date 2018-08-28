@@ -16,4 +16,6 @@ public interface GoodsMapper extends BaseMapper<Goods>{
 	
 	List<GoodsCountVo> getGoodsCount(Page<GoodsCountVo> page,@Param("start")Date start,@Param("end")Date end);
 
+	List<GoodsCountVo> getGoodsCount(@Param("start")Date start,@Param("end")Date end);
+	
 }

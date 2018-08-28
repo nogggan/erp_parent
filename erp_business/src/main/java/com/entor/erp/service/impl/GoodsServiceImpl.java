@@ -30,5 +30,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		return page;
 	}
 
-	
+	@Override
+	public List<GoodsCountVo> getGoodsCountInfo(Date startDate, Date endDate) {
+		return baseMapper.getGoodsCount(startDate,endDate);
+	}
 }

@@ -14,6 +14,7 @@
 <script type="text/javascript" src="/js/request.js" th:src="@{/js/request.js}" ></script>
 <script type="text/javascript" th:inline="javascript">
 	var pageUrl = [[@{/goodscount/page}]]
+	var chartImgUrl = [[@{/goodscount/chart}]];
 </script>
 <script type="text/javascript">
 	$(function(){
@@ -21,8 +22,8 @@
 			url:pageUrl,
 			singleSelect:"true",
 			columns:[[
-				{field:'name',title:'商品类型名称',width:160,align:'center'},
-				{field:'money',title:'销售总额',width:120,align:'center'}
+				{field:'name',title:'商品类型名称',width:220,align:'center'},
+				{field:'money',title:'销售总额',width:200,align:'center'}
 			]],
 			pagination:true,
 			pageSize:5,
@@ -32,15 +33,21 @@
 	function reportSearch(){
 		var data = getFormData("searchForm");
 		$("#grid").datagrid("reload",data);
+		$("#chartImg").attr("src",chartImgUrl+"?startDate="+data['startDate']+"&endDate="+data['endDate']);
 	}
 </script>
 </head>
-<body>
-	<form id="searchForm">
-		开始时间:<input name="startDate" class="easyui-datebox"/>
-		结束时间:<input name="endDate" class="easyui-datebox"/>
-	  <input type="button" value="搜索" onclick="reportSearch()"/>
-	</form><br/>
-	<table id="grid"></table>
+<body class="easyui-layout">
+	<div data-options="region:'center',title:'销售统计表'" style="padding:5px">
+		<form id="searchForm">
+			开始时间:<input name="startDate" class="easyui-datebox"/>
+			结束时间:<input name="endDate" class="easyui-datebox"/>
+  		<input type="button" value="搜索" onclick="reportSearch()"/>
+		</form><br/>
+		<table id="grid"></table>
+	</div>
+	<div data-options="region:'east',title:'销售统计图'" style="width:460px;margin:5px">
+		<img id="chartImg" th:src="@{/goodscount/chart}"/>
+	</div>
 </body>
 </html>

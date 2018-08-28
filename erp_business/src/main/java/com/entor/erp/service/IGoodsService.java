@@ -1,6 +1,7 @@
 package com.entor.erp.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
@@ -12,5 +13,7 @@ public interface IGoodsService extends IService<Goods>{
 	Page<Goods> getPage(Page<Goods> page,Goods goods);
 	
 	Page<GoodsCountVo> getGoodsCountInfo(Page<GoodsCountVo> page,Date startDate,Date endDate);
+	
+	List<GoodsCountVo> getGoodsCountInfo(Date startDate,Date endDate);
 
 }
