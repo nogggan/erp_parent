@@ -33,7 +33,7 @@
 <script type="text/javascript">
 	var isDouble = false;
 	var isFilter = false;
-	var pageUrl = basePath+"/orders/page?state=1";
+	var pageUrl = basePath+"/orders/page?state=1&type=1";
 	var confirmUrl = basePath+"/orders/confirm";
 	var operator = {field:'operator',title:'操作',align:'center',formatter:function(value,row,index){
 				return "<a href='#' onclick='doConfirm("+row.uuid+")'>确认</a>";

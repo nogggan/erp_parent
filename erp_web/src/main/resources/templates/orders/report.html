@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
+<script src='currencyFormatter.js' th:src="@{/js/currencyFormatter.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/datagrid-detailview.js}"></script>
+<script type="text/javascript" src="/js/request.js" th:src="@{/js/request.js}" ></script>
+<script type="text/javascript" th:inline="javascript">
+	var pageUrl = [[@{/goodscount/page}]]
+</script>
+<script type="text/javascript">
+	$(function(){
+		$("#grid").datagrid({
+			url:pageUrl,
+			singleSelect:"true",
+			columns:[[
+				{field:'name',title:'商品类型名称',width:160,align:'center'},
+				{field:'money',title:'销售总额',width:120,align:'center'}
+			]],
+			pagination:true,
+			pageSize:5,
+			pageList:[5,10,15,20]
+		})
+	})
+	function reportSearch(){
+		var data = getFormData("searchForm");
+		$("#grid").datagrid("reload",data);
+	}
+</script>
+</head>
+<body>
+	<form id="searchForm">
+		开始时间:<input name="startDate" class="easyui-datebox"/>
+		结束时间:<input name="endDate" class="easyui-datebox"/>
+	  <input type="button" value="搜索" onclick="reportSearch()"/>
+	</form><br/>
+	<table id="grid"></table>
+</body>
+</html>

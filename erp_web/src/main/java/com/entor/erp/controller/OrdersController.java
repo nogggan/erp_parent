@@ -45,7 +45,7 @@ public class OrdersController {
 	@Autowired
 	private IOrdersService orderService;
 	
-	@GetMapping("/{id}")
+	@GetMapping("/get/{id}")
 	public Orders get(@PathVariable("id") Long id) {
 		return orderService.selectById(id);
 	}
@@ -165,6 +165,13 @@ public class OrdersController {
 	}
 	
 	
+	/**
+	 * 订单出库
+	 * @param storeUuid 仓库编号
+	 * @param orderDetailUuid 订单详细编号
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/outstore")
 	public Result<String> outstore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,

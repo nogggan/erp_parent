@@ -57,4 +57,11 @@ public class GlobalController {
 		return "orders/outstore";
 	}
 	
+	@GetMapping(path="/order/report.html")
+	public String toGoodsCount(HttpSession session) {
+		if(session.getAttribute("emp")==null)
+			return "redirect:/login.html";
+		return "orders/report";
+	}
+	
 }
