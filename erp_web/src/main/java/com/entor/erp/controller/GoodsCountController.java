@@ -2,6 +2,9 @@ package com.entor.erp.controller;
 
 import java.awt.Font;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +13,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.WrapDynaBean;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
@@ -32,6 +37,8 @@ import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
 import com.entor.erp.service.IGoodsService;
+import com.entor.erp.util.ExcelModel;
+import com.entor.erp.util.ExcelUtils;
 import com.entor.erp.vo.GoodsCountVo;
 
 @RestController
@@ -82,6 +89,26 @@ public class GoodsCountController {
 			ChartUtils.writeChartAsPNG(response.getOutputStream(), jFreeChart, 450,330);
 		} catch (IOException e) {
 			throw new GlobalException(Result.error(ResultType.ERROR, "生成统计图失败，请重新尝试"));
+		}
+	}
+	
+	@GetMapping("/exportExcel")
+	public void excel(HttpServletResponse response,Date startDate,Date endDate) throws UnsupportedEncodingException {
+		
+		String fileName = "销售报表统计";
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(fileName+".xls", "utf-8"));
+		ExcelModel<GoodsCountVo> excelModel = new ExcelModel<>();
+		List<GoodsCountVo> goodsCountInfo = goodsService.getGoodsCountInfo(startDate, endDate);
+		excelModel.setColumns(new String[] {"name","money"});
+		excelModel.setFieldNames(new String[] {"getName","getMoney"});
+		excelModel.setContents(goodsCountInfo);
+		excelModel.setTitle(fileName);
+		HSSFWorkbook workBook = ExcelUtils.getWorkBook(excelModel);
+		try {
+			workBook.write(response.getOutputStream());
+		} catch (IOException e) {
+			throw new GlobalException(Result.error(ResultType.ERROR, "下载销售报表Excel失败，请重新尝试"));
 		}
 	}
 	
