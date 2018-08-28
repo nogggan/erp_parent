@@ -3,7 +3,6 @@ package com.entor.erp.controller;
 import java.awt.Font;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -13,7 +12,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.WrapDynaBean;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.entor.erp.entity.Orders;
 import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
@@ -48,8 +45,16 @@ public class GoodsCountController {
 	@Autowired
 	private IGoodsService goodsService;
 	
+	/**
+	 * 销售统计表
+	 * @param pageNow
+	 * @param pageSize
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	@PostMapping("/page")
-	public ResponseEntity<Map<String, Object>> getPage(Orders orders,@RequestParam(value="page",defaultValue="1")String pageNow,
+	public ResponseEntity<Map<String, Object>> getPage(@RequestParam(value="page",defaultValue="1")String pageNow,
 			@RequestParam(value="rows",defaultValue="3")String pageSize,
 			Date startDate,Date endDate){
 		System.out.println(startDate);
@@ -70,6 +75,12 @@ public class GoodsCountController {
 		return new ResponseEntity<Map<String,Object>>(body,HttpStatus.OK);
 	}
 	
+	/**
+	 * 销售报表统计图
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 */
 	@GetMapping("/chart")
 	public void chart(HttpServletResponse response,Date startDate,Date endDate) {
 		List<GoodsCountVo> goodsCountInfo = goodsService.getGoodsCountInfo(startDate, endDate);
@@ -92,6 +103,13 @@ public class GoodsCountController {
 		}
 	}
 	
+	/**
+	 * 导出销售Excel报表
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @throws UnsupportedEncodingException
+	 */
 	@GetMapping("/exportExcel")
 	public void excel(HttpServletResponse response,Date startDate,Date endDate) throws UnsupportedEncodingException {
 		
@@ -100,7 +118,7 @@ public class GoodsCountController {
 		response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(fileName+".xls", "utf-8"));
 		ExcelModel<GoodsCountVo> excelModel = new ExcelModel<>();
 		List<GoodsCountVo> goodsCountInfo = goodsService.getGoodsCountInfo(startDate, endDate);
-		excelModel.setColumns(new String[] {"name","money"});
+		excelModel.setColumns(new String[] {"商品类型名称","销售总额"});
 		excelModel.setFieldNames(new String[] {"getName","getMoney"});
 		excelModel.setContents(goodsCountInfo);
 		excelModel.setTitle(fileName);
