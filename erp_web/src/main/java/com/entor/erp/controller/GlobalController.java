@@ -50,7 +50,7 @@ public class GlobalController {
 		return "orders/instore";
 	}
 	
-	@GetMapping(path="/order/oustore.html")
+	@GetMapping(path="/order/outstore.html")
 	public String toOrdersOutstore(HttpSession session) {
 		if(session.getAttribute("emp")==null)
 			return "redirect:/login.html";

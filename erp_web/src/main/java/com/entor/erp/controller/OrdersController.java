@@ -34,6 +34,8 @@ import com.entor.erp.service.IOrdersService;
 import com.entor.erp.util.ValidatorUtils;
 import com.entor.erp.vo.OrdersDetailVo;
 import com.entor.erp.vo.SupplierVo;
+import com.entor.erp.vo.WebModel;
+import com.entor.erp.web.socket.WebSocketService;
 
 @RestController
 @RequestMapping("/orders")
@@ -42,6 +44,9 @@ public class OrdersController {
 
 	@Autowired
 	private IOrdersService orderService;
+	
+	@Autowired
+	private WebSocketService webSocketService;
 	
 	@GetMapping("/get/{id}")
 	public Orders get(@PathVariable("id") Long id) {
@@ -140,8 +145,12 @@ public class OrdersController {
 			details.add(ordersDetail);
 		});
 		if(orderService.addOrderAndOrderDetail(orders, details)) {
-			return supplierVo.getType().equals("1")?Result.success("采购成功"):Result.success("销售订单录入成功");
 			//推送消息
+			if(supplierVo.getType().equals("1"))
+				webSocketService.send(new WebModel().setMsg("有新的采购订单").setUrl("/order/check.html?type=1").setTitle("采购审核"));
+			else
+				webSocketService.send(new WebModel().setMsg("有新的销售入库订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库"));
+			return supplierVo.getType().equals("1")?Result.success("采购成功"):Result.success("销售订单录入成功");
 		}
 		else
 			return supplierVo.getType().equals("1")?Result.error(ResultType.ORDERS_ERROR, "采购失败"):Result.error(ResultType.ORDERS_ERROR, "销售订单录入失败");

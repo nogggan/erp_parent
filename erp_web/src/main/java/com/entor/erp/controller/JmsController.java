@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entor.erp.result.Result;
+import com.entor.erp.vo.WebModel;
 import com.entor.erp.web.socket.WebSocketService;
 
 @RestController
@@ -25,7 +26,7 @@ public class JmsController {
 	@GetMapping("/test")
 	public Result<String> send(){ 
 		jmsTemplate.convertAndSend("new-message", "下订单了");
-		webSocketService.send("您有新的订单生成了");
+		webSocketService.send(new WebModel().setMsg("有新的销售订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库"));
 		return Result.success("成功发送");
 	}
 	

@@ -36,8 +36,12 @@
 				websocket.close();
 			}
 			websocket.onmessage=function(event){
-				$(".modal-body").html(event.data);
+				eval("var result = "+event.data);
+				$(".modal-body").html(result.msg);
 				$("#myModal").modal({backdrop:false}).show();
+				$("#selectInfo").click(function(){
+					addTab(result.title,result.url,'icon');
+				});
 			}
 			websocket.onerror = function(){
 			}
@@ -132,13 +136,9 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-				在这里添加一些文本
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default"  data-dismiss="modal">关闭
-				</button>
-				<button type="button" class="btn btn-primary">
-					提交更改
+				<button type="button" class="btn btn-default"  data-dismiss="modal" id="selectInfo">查看
 				</button>
 			</div>
 		</div><!-- /.modal-content -->
