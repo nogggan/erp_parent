@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.entor.erp.dao.GoodsMapper">
   <select id="getGoodsCount" resultType="com.entor.erp.vo.GoodsCountVo">
-    select gt.name,sum(o.money) money from orderdetail o left join goodstype gt on o.goodsuuid = gt.uuid left join orders os on os.uuid = o.ordersuuid where os.type='2' 
+    select gt.name,sum(o.money) money from orderdetail o left join goods g on g.uuid= o.goodsuuid left join goodstype gt on g.goodstypeuuid = gt.uuid left join orders os on os.uuid = o.ordersuuid where os.type='2' 
     <if test="start!=null">
    		 and os.createtime &gt;= #{start}
     </if>

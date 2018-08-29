@@ -64,4 +64,11 @@ public class GlobalController {
 		return "orders/report";
 	}
 	
+	@GetMapping(path="/storewarn/storewarn.html")
+	public String toStoreWarn(HttpSession session) {
+		if(session.getAttribute("emp")==null)
+			return "redirect:/login.html";
+		return "storewarn/storewarn";
+	}
+	
 }

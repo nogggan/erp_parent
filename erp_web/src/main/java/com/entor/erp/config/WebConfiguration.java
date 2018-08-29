@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -14,6 +15,7 @@ import com.entor.erp.interceptor.HttpLogInterceptor;
 import com.entor.erp.resolver.DateMethodArgumentResolver;
 
 @Configuration
+@EnableScheduling
 public class WebConfiguration implements WebMvcConfigurer{
 
 	@Override
