@@ -2,6 +2,7 @@ package com.entor.erp.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -11,13 +12,19 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.entor.erp.entity.Emp;
 import com.entor.erp.interceptor.HttpLogInterceptor;
 import com.entor.erp.resolver.DateMethodArgumentResolver;
+import com.entor.erp.resolver.EmpHandlerMethodArgumentResolver;
 
 @Configuration
 @EnableScheduling
 public class WebConfiguration implements WebMvcConfigurer{
-
+	
+	@Autowired
+	private EmpHandlerMethodArgumentResolver empHandlerMethodArgumentResolver;
+	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/list").setViewName("dep/list");
@@ -44,6 +51,7 @@ public class WebConfiguration implements WebMvcConfigurer{
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(new DateMethodArgumentResolver());
+		resolvers.add(empHandlerMethodArgumentResolver);
 	}
 	
 //	@Bean

@@ -1,11 +1,11 @@
 package com.entor.erp.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.gan.spring.boot.autoconfigure.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,23 +27,17 @@ public class SysController {
 	@Autowired
 	private IEmpService empService;
 	
-	@Autowired
-	private RedisService redisService;
-	
 	@PostMapping("/login")
 	@ResponseBody
-	public Result<Emp> login(@Valid EmpVo empVo,HttpSession session){
-		String id = session.getId();
-		System.out.println("SessionId:"+id);
+	public Result<String> login(@Valid EmpVo empVo,HttpServletResponse response){
 		Emp emp = new Emp();
 		try {
 			BeanUtils.copyProperties(emp, empVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Emp realEmp = empService.getEmp(emp);
-		session.setAttribute("emp", realEmp);
-		return Result.success(realEmp);
+		empService.login(response,emp);
+		return Result.success("登录成功");
 	}
 	
 	@GetMapping("/info")
@@ -59,6 +53,12 @@ public class SysController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/login.html";
+	}
+	
+	@GetMapping("/test")
+	@ResponseBody
+	public Emp get(Emp emp) {
+		return emp;
 	}
 	
 }

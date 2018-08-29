@@ -18,4 +18,6 @@ public class UserRedisKey extends AbstractRedisKey{
 	
 	public static final UserRedisKey LOGIN_EMP = new UserRedisKey("login_emp");
 	
+	public static final UserRedisKey LOGIN_TOKEN = new UserRedisKey(1800,"_token");
+	
 }
