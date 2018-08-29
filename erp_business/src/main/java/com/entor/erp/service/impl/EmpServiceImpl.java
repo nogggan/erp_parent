@@ -23,6 +23,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 		Emp dbEmp = baseMapper.selectOne(emp);
 		if(dbEmp==null)
 			throw new GlobalException(Result.error(ResultType.USER_NO_EXISTS, "用户名或密码错误"));
+		
 		dbEmp.setPassword("******");
 		return dbEmp;
 	}

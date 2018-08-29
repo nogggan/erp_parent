@@ -21,6 +21,8 @@ spring:
         max-idle: 3
   thymeleaf:
     cache: false
+  mail:
+    default-encoding: UTF-8
 logging:
   level:
     com.entor.erp: debug

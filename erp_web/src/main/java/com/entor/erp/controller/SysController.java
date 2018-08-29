@@ -1,5 +1,6 @@
 package com.entor.erp.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -28,6 +29,8 @@ public class SysController {
 	@PostMapping("/login")
 	@ResponseBody
 	public Result<Emp> login(@Valid EmpVo empVo,HttpSession session){
+		String id = session.getId();
+		System.out.println("SessionId:"+id);
 		Emp emp = new Emp();
 		try {
 			BeanUtils.copyProperties(emp, empVo);
