@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.EmpMapper;
 import com.entor.erp.entity.Emp;
 import com.entor.erp.exception.GlobalException;
+import com.entor.erp.key.UserRedisKey;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
 import com.entor.erp.service.IEmpService;
@@ -20,10 +21,16 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 
 	@Override
 	public Emp getEmp(Emp emp) {
-		Emp dbEmp = baseMapper.selectOne(emp);
+		String key = emp.getName()+"_"+emp.getPassword();
+		Emp dbEmp = redisService.get(UserRedisKey.LOGIN_EMP, key, Emp.class);
+		if(dbEmp!=null) {
+			dbEmp.setPassword("******");
+			return dbEmp;
+		}
+		dbEmp = baseMapper.selectOne(emp);
 		if(dbEmp==null)
 			throw new GlobalException(Result.error(ResultType.USER_NO_EXISTS, "用户名或密码错误"));
-		
+		redisService.set(UserRedisKey.LOGIN_EMP, key, dbEmp);
 		dbEmp.setPassword("******");
 		return dbEmp;
 	}

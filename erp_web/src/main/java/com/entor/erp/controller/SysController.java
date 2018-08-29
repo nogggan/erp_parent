@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.gan.spring.boot.autoconfigure.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,9 @@ public class SysController {
 	
 	@Autowired
 	private IEmpService empService;
+	
+	@Autowired
+	private RedisService redisService;
 	
 	@PostMapping("/login")
 	@ResponseBody
