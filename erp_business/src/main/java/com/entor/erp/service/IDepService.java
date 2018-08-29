@@ -18,4 +18,5 @@ public interface IDepService {
 	Page<Dep> getPage(Page<Dep> page,Dep dep);
 	
 	boolean delete(Long id);
+	
 }

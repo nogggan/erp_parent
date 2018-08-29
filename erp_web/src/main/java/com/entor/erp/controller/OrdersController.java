@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -89,7 +87,7 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/confirm")
-	public Result<String> confirm(@RequestParam(value="uuid",required=false) 
+	public Result<String> confirm(@RequestParam(value="uuid",required=false)
 				@Validated @NotNull(message="商品uuid不能为空")Long id,HttpSession session){
 		Emp emp = (Emp) session.getAttribute("emp");
 		if(orderService.confirm(id,emp))
@@ -141,8 +139,10 @@ public class OrdersController {
 			} 
 			details.add(ordersDetail);
 		});
-		if(orderService.addOrderAndOrderDetail(orders, details))
+		if(orderService.addOrderAndOrderDetail(orders, details)) {
 			return supplierVo.getType().equals("1")?Result.success("采购成功"):Result.success("销售订单录入成功");
+			//推送消息
+		}
 		else
 			return supplierVo.getType().equals("1")?Result.error(ResultType.ORDERS_ERROR, "采购失败"):Result.error(ResultType.ORDERS_ERROR, "销售订单录入失败");
 	}
