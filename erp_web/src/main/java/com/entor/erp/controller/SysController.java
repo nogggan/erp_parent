@@ -34,7 +34,6 @@ public class SysController {
 	private IEmpService empService;
 	
 	@PostMapping("/login")
-	@ResponseBody
 	public Result<String> login(@Valid EmpVo empVo,HttpServletResponse response){
 		Emp emp = new Emp();
 		try {
@@ -47,7 +46,6 @@ public class SysController {
 	}
 	
 	@GetMapping("/info")
-	@ResponseBody
 	public Result<Emp> getSessionEmp(Emp emp){
 		if(emp==null)
 			throw new GlobalException(Result.error(ResultType.USER_NO_EXISTS, "请先登录"));

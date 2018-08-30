@@ -23,11 +23,11 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.entor.erp.exception.GlobalException;
@@ -38,7 +38,7 @@ import com.entor.erp.util.ExcelModel;
 import com.entor.erp.util.ExcelUtils;
 import com.entor.erp.vo.GoodsCountVo;
 
-@RestController
+@Controller
 @RequestMapping("/goodscount")
 public class GoodsCountController {
 	

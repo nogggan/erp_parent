@@ -5,13 +5,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -38,7 +40,7 @@ import com.entor.erp.vo.SupplierVo;
 import com.entor.erp.vo.WebModel;
 import com.entor.erp.web.socket.WebSocketService;
 
-@RestController
+@Controller
 @RequestMapping("/orders")
 @Validated
 public class OrdersController {
@@ -48,11 +50,6 @@ public class OrdersController {
 	
 	@Autowired
 	private WebSocketService webSocketService;
-	
-	@GetMapping("/get/{id}")
-	public Orders get(@PathVariable("id") Long id) {
-		return orderService.selectById(id);
-	}
 	
 	@PostMapping("/page")
 	public ResponseEntity<Map<String, Object>> getPage(Orders orders,@RequestParam(value="page",defaultValue="1")String pageNow,

@@ -3,11 +3,10 @@ package com.entor.erp.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,14 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.baomidou.mybatisplus.plugins.Page;
 import com.entor.erp.entity.Dep;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
 import com.entor.erp.service.IDepService;
 
-@RestController
+@Controller
 @RequestMapping("/dep")
 @Validated
 public class DepController {
@@ -69,6 +69,7 @@ public class DepController {
 	}
 	
 	@GetMapping("/{id}")
+	@ResponseBody
 	public Dep get(@PathVariable("id") Long id) {
 		return depService.getById(id);
 	}
