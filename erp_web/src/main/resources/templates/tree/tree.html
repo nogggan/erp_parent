@@ -12,8 +12,10 @@
 <script type="text/javascript" th:inline="javascript">
 	var roleUrl = [[@{/role/page}]];
 	var treeUrl = [[@{/menu/tree}]];
+	var updateRoleAuthUrl = [[@{/role/updateRoleAuth}]];
 </script>
 <script type="text/javascript">
+	var globalRoleId;
 	$(function(){
 		$("#grid").datagrid({
 			url:roleUrl,
@@ -24,14 +26,38 @@
 			]],
 			pagination:true,
 			pageSize:'5',
-			pageList:[5,10,15,20]
+			pageList:[5,10,15,20],
+			onClickRow:function(rowIndex,rowData){
+				var roleid = rowData.uuid;
+				globalRoleId = roleid;
+				$("#tootip").html("当前角色 : "+rowData.name);
+				loadTree(roleid);
+				$("#btn").html("<input type='button' value='保存权限操作' onclick='save()'/>");
+			}
 		});
+	})
+	function loadTree(roleid){
 		$("#tree").tree({
-			url:treeUrl,
+			url:treeUrl+"?roleid="+roleid,
 			checkbox:true,
 			animate:true
 		});
-	})
+	};
+	function save(){
+		var nodes = $("#tree").tree('getChecked');
+		var idsArray = new Array();
+		for(var i=0;i<nodes.length;i++){
+			idsArray.push(nodes[i].id);
+		}		var ids = idsArray.join();
+		$.post(updateRoleAuthUrl,{'ids':ids,'roleid':globalRoleId},function(data){
+				if(data.code==200){
+					alert(data.data);
+					loadTree(globalRoleId);
+				}else{
+					alert(data.msg);
+				}
+		});
+	}
 </script>
 </head>
 <body class="easyui-layout">
@@ -39,7 +65,10 @@
 		<table id="grid"></table>
 	</div>
 	<div data-options="region:'center',title:'权限设置',split:true" style="padding:5px">
-		<ul id="tree"></ul>
+		<h3 id="tootip"></h3>
+		<div id="tree"></div>
+		<br/>
+		<span id="btn"></span>
 	</div>
 	
 </body>

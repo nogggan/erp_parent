@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TimerHandler {
 	
-	@Scheduled(cron="0/30 * * * * *")
+//	@Scheduled(cron="0/30 * * * * *")
 	public void handlerStoreWarn() {
 		log.debug("正在处理库存警告");
 	}

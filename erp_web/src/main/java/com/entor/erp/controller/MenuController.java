@@ -4,12 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.entor.erp.entity.Menu;
@@ -18,6 +22,7 @@ import com.entor.erp.service.IMenuService;
 
 @RestControllerAdvice
 @RequestMapping("/menu")
+@Validated
 public class MenuController {
 	
 	@Autowired
@@ -34,8 +39,8 @@ public class MenuController {
 	}
 	
 	@PostMapping("/tree")
-	public List<Tree> getTree(){
-		return menuService.getMenuTree();
+	public List<Tree> getTree(@RequestParam(value="roleid",required=false) @Validated @NotNull(message="角色编号不能为空")Long roleid){
+		return menuService.getMenuTree(roleid);
 	}
 	
 }

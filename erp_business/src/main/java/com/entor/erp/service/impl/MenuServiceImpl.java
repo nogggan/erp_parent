@@ -13,16 +13,18 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.MenuMapper;
 import com.entor.erp.entity.Menu;
+import com.entor.erp.entity.RoleMenu;
 import com.entor.erp.entity.Tree;
 import com.entor.erp.key.MenuRedisKey;
 import com.entor.erp.service.IMenuService;
+import com.entor.erp.service.IRoleMenuService;
 
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService{
 	
 	@Autowired
 	private RedisService redisService;
-
+	
 	@Override
 	public List<Menu> getMenu(Menu menu) {
 		List<Menu> list = redisService.getList(MenuRedisKey.MENU,menu.getPid(),Menu.class);
@@ -53,7 +55,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	}
 
 	@Override
-	public List<Tree> getMenuTree() {
+	public List<Tree> getMenuTree(Long roleid) {
+		List<Menu> roleMenu = baseMapper.getMenuByRoleId(roleid);
 		//获取菜单
 		Menu menu = new Menu();
 		menu.setPid("0");
@@ -67,6 +70,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 				Tree tree2 = new Tree();
 				tree2.setId(mm.getMenuid());
 				tree2.setText(mm.getMenuname());
+				if(roleMenu.contains(mm))
+					tree2.setChecked(true);
 				tree.getChildren().add(tree2);
 			});
 			trees.add(tree);

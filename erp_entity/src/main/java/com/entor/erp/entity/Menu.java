@@ -29,4 +29,16 @@ public class Menu {
 	@TableField(exist=false)
 	private List<Menu> menus;
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj instanceof Menu) {
+			Menu m = (Menu) obj;
+			if(m.getMenuid().equals(this.getMenuid()))
+				return true;
+		}
+		return false;
+	}
+	
 }

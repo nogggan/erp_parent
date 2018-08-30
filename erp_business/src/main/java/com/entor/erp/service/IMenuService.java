@@ -11,6 +11,6 @@ public interface IMenuService {
 	
 	List<Menu> getMenuByParentId(String menuId);
 	
-	List<Tree> getMenuTree();
+	List<Tree> getMenuTree(Long roleid);
 	
 }
