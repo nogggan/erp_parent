@@ -21,7 +21,7 @@ import com.entor.erp.handler.ResultHandlerMethodReturnValueHandler;
 import com.entor.erp.interceptor.AccessControlHandlerInterceptor;
 import com.entor.erp.interceptor.HttpLogInterceptor;
 import com.entor.erp.interceptor.ResolveTokenHandlerInterceptor;
-import com.entor.erp.resolver.DateMethodArgumentResolver;
+import com.entor.erp.resolver.DateHandlerMethodArgumentResolver;
 import com.entor.erp.resolver.EmpHandlerMethodArgumentResolver;
 
 @Configuration
@@ -66,7 +66,7 @@ public class WebConfiguration implements WebMvcConfigurer{
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new DateMethodArgumentResolver());
+		resolvers.add(new DateHandlerMethodArgumentResolver());
 		resolvers.add(new EmpHandlerMethodArgumentResolver());
 	}
 	

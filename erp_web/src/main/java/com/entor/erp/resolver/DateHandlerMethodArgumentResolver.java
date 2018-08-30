@@ -14,7 +14,7 @@ import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
 
-public class DateMethodArgumentResolver implements HandlerMethodArgumentResolver{
+public class DateHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver{
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
