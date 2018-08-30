@@ -9,7 +9,7 @@ public class GlobalController {
 
 	@GetMapping(path="/login.html")
 	public String toLogin(Emp emp) {
-		if(emp == null)
+		if(emp != null)
 			return "redirect:/index.html";
 		return "login";
 	}
