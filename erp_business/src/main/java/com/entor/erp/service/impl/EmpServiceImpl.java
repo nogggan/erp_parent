@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.EmpMapper;
 import com.entor.erp.entity.Emp;
@@ -75,6 +76,13 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	@Override
 	public void removeEmpByToken(String token) {
 		redisService.del(UserRedisKey.LOGIN_TOKEN, token);
+	}
+
+
+	@Override
+	public Page<Emp> getPage(Page<Emp> page, Emp emp) {
+		EntityWrapper<Emp> wrapper = new EntityWrapper<>();
+		return selectPage(page, wrapper);
 	}
 
 

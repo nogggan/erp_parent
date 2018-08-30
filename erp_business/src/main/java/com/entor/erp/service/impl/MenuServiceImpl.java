@@ -8,16 +8,13 @@ import org.gan.spring.boot.autoconfigure.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.MenuMapper;
 import com.entor.erp.entity.Menu;
-import com.entor.erp.entity.RoleMenu;
 import com.entor.erp.entity.Tree;
 import com.entor.erp.key.MenuRedisKey;
 import com.entor.erp.service.IMenuService;
-import com.entor.erp.service.IRoleMenuService;
 
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService{

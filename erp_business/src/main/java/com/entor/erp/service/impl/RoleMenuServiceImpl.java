@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.RoleMenuMapper;
 import com.entor.erp.entity.RoleMenu;
+import com.entor.erp.entity.Tree;
 import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
@@ -20,6 +21,9 @@ import com.entor.erp.service.IRoleMenuService;
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu>
 						implements IRoleMenuService{
 
+	/**
+	 * 修改角色权限
+	 */
 	@Transactional
 	@Override
 	public boolean updateRoleMenu(Long roleid, String[] menuIds) {

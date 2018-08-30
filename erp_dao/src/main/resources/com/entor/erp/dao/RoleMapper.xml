@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.erp.dao.RoleMapper">
+  <select id="getRoleByEmpId" resultType="com.entor.erp.entity.Role">
+  	select * from emp_role er,emp e where er.empid = e.uuid and er.empid=#{empid}
+  </select >
+</mapper>

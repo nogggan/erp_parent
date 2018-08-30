@@ -77,4 +77,11 @@ public class GlobalController {
 		return "tree/tree";
 	}
 	
+	@GetMapping(path="/emp/userAuth.html")
+	public String toUserAuth(Emp emp) {
+		if(emp == null)
+			return "redirect:/login.html";
+		return "tree/userAuth";
+	}
+	
 }

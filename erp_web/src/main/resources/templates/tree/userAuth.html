@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
+<script type="text/javascript" th:inline="javascript">
+	var empPageUrl = [[@{/emp/page}]];
+	var treeUrl = [[@{/role/roleTree}]];
+	var updateRoleAuthUrl = [[@{/role/updateRoleAuth}]];
+</script>
+<script type="text/javascript">
+	var globalEmpId;
+	$(function(){
+		$("#grid").datagrid({
+			url:empPageUrl,
+			singleSelect:"true",
+			columns:[[
+				{field:'uuid',title:'用户编号',align:'center',width:180},
+				{field:'username',title:'用户账号',align:'center',width:180},
+				{field:'name',title:'用户姓名',align:'center',width:180}
+			]],
+			pagination:true,
+			pageSize:'5',
+			pageList:[5,10,15,20],
+			onClickRow:function(rowIndex,rowData){
+				var empid = rowData.uuid;
+				globalEmpId = empid;
+				$("#tootip").html("当前员工 : "+rowData.name);
+				loadTree(empid);
+				$("#btn").html("<input type='button' value='保存权限操作' onclick='save()'/>");
+			}
+		});
+	})
+	function loadTree(empid){
+		$("#tree").tree({
+			url:treeUrl+"?empid="+empid,
+			checkbox:true,
+			animate:true
+		});
+	};
+	function save(){
+		var nodes = $("#tree").tree('getChecked');
+		var idsArray = new Array();
+		for(var i=0;i<nodes.length;i++){
+			idsArray.push(nodes[i].id);
+		}		var ids = idsArray.join();
+		$.post(updateRoleAuthUrl,{'ids':ids,'empid':globalEmpId},function(data){
+				if(data.code==200){
+					alert(data.data);
+					loadTree(globalRoleId);
+				}else{
+					alert(data.msg);
+				}
+		});
+	}
+</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',title:'员工信息',split:true"  style="width:580px">
+		<table id="grid"></table>
+	</div>
+	<div data-options="region:'center',title:'角色设置',split:true" style="padding:5px">
+		<h3 id="tootip"></h3>
+		<div id="tree"></div>
+		<br/>
+		<span id="btn"></span>
+	</div>
+	
+</body>
+</html>

@@ -12,17 +12,20 @@
 	<script type="text/javascript" src='adminjs/index.js' th:src="@{/adminjs/index.js}"> </script>
 	<script type="text/javascript" th:src="@{/bootstraps/js/bootstrap.min.js}"></script>
 	<script type="text/javascript">
+		var userData;
 		$(function(){
 			$.ajax({
 				url:"[[@{/sys/info}]]",
 				type:"GET",
+				async:false,
 				success:function(data){
+					userData = data.data;
 					$("#name").html(data.data.name);
 				}
 			})
 			var websocket;
 			if('WebSocket' in window){
-				websocket = new WebSocket("ws://localhost/websocket");
+				websocket = new WebSocket("ws://localhost/websocket/"+userData.uuid);
 			}else{
 				alert("您的浏览器不支持WebSocket");
 			}
