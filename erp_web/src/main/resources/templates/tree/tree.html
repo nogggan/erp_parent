@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}" ></script>
+<script type="text/javascript" th:inline="javascript">
+	var roleUrl = [[@{/role/page}]];
+	var treeUrl = [[@{/menu/tree}]];
+</script>
+<script type="text/javascript">
+	$(function(){
+		$("#grid").datagrid({
+			url:roleUrl,
+			singleSelect:"true",
+			columns:[[
+				{field:'uuid',title:'角色编号',align:'center',width:180},
+				{field:'name',title:'角色名称',align:'center',width:180}
+			]],
+			pagination:true,
+			pageSize:'5',
+			pageList:[5,10,15,20]
+		});
+		$("#tree").tree({
+			url:treeUrl,
+			checkbox:true,
+			animate:true
+		});
+	})
+</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',title:'选择角色',split:true"  style="width:380px">
+		<table id="grid"></table>
+	</div>
+	<div data-options="region:'center',title:'权限设置',split:true" style="padding:5px">
+		<ul id="tree"></ul>
+	</div>
+	
+</body>
+</html>

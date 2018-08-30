@@ -11,7 +11,7 @@ spring:
   datasource:
     username: scott
     password: tiger
-    url: jdbc:oracle:thin:@localhost:1521:orcl
+    url: jdbc:oracle:thin:@localhost:1521:xe
     driver-class-name: oracle.jdbc.OracleDriver
   redis:
     host: 127.0.0.1
@@ -27,7 +27,7 @@ logging:
   level:
     com.entor.erp: debug
 server:
-  port: 8080
+  port: 80
 druid:
   view:
     servletUsername: ganxiaofeng

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.entor.erp.entity.Menu;
+import com.entor.erp.entity.Tree;
 import com.entor.erp.service.IMenuService;
 
 @RestControllerAdvice
@@ -30,6 +31,11 @@ public class MenuController {
 		Map<String, Object>body = new HashMap<>();
 		body.put("menus", menus);
 		return new ResponseEntity<Map<String,Object>>(body, HttpStatus.OK);
+	}
+	
+	@PostMapping("/tree")
+	public List<Tree> getTree(){
+		return menuService.getMenuTree();
 	}
 	
 }

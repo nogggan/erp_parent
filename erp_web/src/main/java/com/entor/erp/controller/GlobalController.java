@@ -1,74 +1,80 @@
 package com.entor.erp.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.entor.erp.entity.Emp;
 
 @Controller
 public class GlobalController {
 
 	@GetMapping(path="/login.html")
-	public String toLogin(HttpSession session) {
-		if(session.getAttribute("emp")!=null)
+	public String toLogin(Emp emp) {
+		if(emp == null)
 			return "redirect:/index.html";
 		return "login";
 	}
 	
-	@GetMapping(path="/index.html")
-	public String toIndex(HttpSession session) {
-		if(session.getAttribute("emp")==null)
-			return "redirect:/login.html";
+	@GetMapping(path= {"/","/index.html"})
+	public String toIndex(Emp emp) {
+		if(emp == null)
+			return "login";
 		return "index";
 	}
 	
 	@GetMapping(path="/order/add.html")
-	public String toOrdersAdd(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toOrdersAdd(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "orders/add";
 	}
 	
 	@GetMapping(path="/order/check.html")
-	public String toOrdersCheck(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toOrdersCheck(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "orders/check";
 	}
 	
 	@GetMapping(path="/order/confirm.html")
-	public String toOrdersConfirm(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toOrdersConfirm(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "orders/confirm";
 	}
 	
 	@GetMapping(path="/order/instore.html")
-	public String toOrdersInstore(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toOrdersInstore(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "orders/instore";
 	}
 	
 	@GetMapping(path="/order/outstore.html")
-	public String toOrdersOutstore(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toOrdersOutstore(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "orders/outstore";
 	}
 	
 	@GetMapping(path="/order/report.html")
-	public String toGoodsCount(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toGoodsCount(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "orders/report";
 	}
 	
 	@GetMapping(path="/storewarn/storewarn.html")
-	public String toStoreWarn(HttpSession session) {
-		if(session.getAttribute("emp")==null)
+	public String toStoreWarn(Emp emp) {
+		if(emp == null)
 			return "redirect:/login.html";
 		return "storewarn/storewarn";
+	}
+	
+	@GetMapping(path="/menu/tree.html")
+	public String toTree(Emp emp) {
+		if(emp == null)
+			return "redirect:/login.html";
+		return "tree/tree";
 	}
 	
 }

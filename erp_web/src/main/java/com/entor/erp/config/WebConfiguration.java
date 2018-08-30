@@ -13,8 +13,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.entor.erp.entity.Emp;
+import com.entor.erp.interceptor.AccessControlHandlerInterceptor;
 import com.entor.erp.interceptor.HttpLogInterceptor;
+import com.entor.erp.interceptor.ResolveTokenHandlerInterceptor;
 import com.entor.erp.resolver.DateMethodArgumentResolver;
 import com.entor.erp.resolver.EmpHandlerMethodArgumentResolver;
 
@@ -23,7 +24,7 @@ import com.entor.erp.resolver.EmpHandlerMethodArgumentResolver;
 public class WebConfiguration implements WebMvcConfigurer{
 	
 	@Autowired
-	private EmpHandlerMethodArgumentResolver empHandlerMethodArgumentResolver;
+	private ResolveTokenHandlerInterceptor tokenInterceptor;
 	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
@@ -35,6 +36,8 @@ public class WebConfiguration implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new HttpLogInterceptor());
+		registry.addInterceptor(tokenInterceptor);
+		registry.addInterceptor(new AccessControlHandlerInterceptor());
 	}
 	
 	@Override
@@ -51,7 +54,7 @@ public class WebConfiguration implements WebMvcConfigurer{
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(new DateMethodArgumentResolver());
-		resolvers.add(empHandlerMethodArgumentResolver);
+		resolvers.add(new EmpHandlerMethodArgumentResolver());
 	}
 	
 //	@Bean

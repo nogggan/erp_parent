@@ -11,5 +11,7 @@ public interface IEmpService {
 	Emp getByUserName(String username);
 	
 	Emp getEmpByToken(String token);
+	
+	void removeEmpByToken(String token);
 
 }

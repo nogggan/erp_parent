@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.entor.erp.dao.MenuMapper;
 import com.entor.erp.entity.Menu;
+import com.entor.erp.entity.Tree;
 import com.entor.erp.key.MenuRedisKey;
 import com.entor.erp.service.IMenuService;
 
@@ -23,9 +24,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	private RedisService redisService;
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<Menu> getMenu(Menu menu) {
-		List<Menu> list = redisService.get(MenuRedisKey.MENU,menu.getPid(),List.class);
+		List<Menu> list = redisService.getList(MenuRedisKey.MENU,menu.getPid(),Menu.class);
 		if(list == null) {
 			EntityWrapper<Menu> wrapper = new EntityWrapper<>(menu);
 			wrapper.orderDesc(Arrays.asList("menuid"));
@@ -50,6 +50,28 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		EntityWrapper<Menu> entityWrapper = new EntityWrapper<>();
 		entityWrapper.eq("pid", menuId);
 		return selectList(entityWrapper);
+	}
+
+	@Override
+	public List<Tree> getMenuTree() {
+		//获取菜单
+		Menu menu = new Menu();
+		menu.setPid("0");
+		List<Menu> menus = getMenu(menu);
+		List<Tree> trees = new ArrayList<>();
+		menus.stream().forEach(m->{
+			Tree tree = new Tree();
+			tree.setId(m.getMenuid());
+			tree.setText(m.getMenuname());
+			m.getMenus().forEach(mm->{
+				Tree tree2 = new Tree();
+				tree2.setId(mm.getMenuid());
+				tree2.setText(mm.getMenuname());
+				tree.getChildren().add(tree2);
+			});
+			trees.add(tree);
+		});
+		return trees;
 	}
 
 }

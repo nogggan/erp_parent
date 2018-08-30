@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.entor.erp.annotation.NeedLogin;
 import com.entor.erp.entity.Emp;
 import com.entor.erp.entity.Orders;
 import com.entor.erp.entity.OrdersDetail;
@@ -78,9 +79,9 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/check")
+	@NeedLogin
 	public Result<String> check(@RequestParam(value="uuid",required=false) 
-				@Validated @NotNull(message="商品uuid不能为空")Long id,HttpSession session){
-		Emp emp = (Emp) session.getAttribute("emp");
+				@Validated @NotNull(message="商品uuid不能为空")Long id,Emp emp){
 		if(orderService.check(id,emp))
 			return Result.success("审核成功");
 		return Result.error(ResultType.ERROR, "审核失败");
@@ -92,9 +93,9 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/confirm")
+	@NeedLogin
 	public Result<String> confirm(@RequestParam(value="uuid",required=false)
-				@Validated @NotNull(message="商品uuid不能为空")Long id,HttpSession session){
-		Emp emp = (Emp) session.getAttribute("emp");
+				@Validated @NotNull(message="商品uuid不能为空")Long id,Emp emp){
 		if(orderService.confirm(id,emp))
 			return Result.success("确认成功");
 		return Result.error(ResultType.ERROR, "确认失败");
@@ -108,7 +109,8 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam(value="json",required=false)String data,HttpSession session){
+	@NeedLogin
+	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam(value="json",required=false)String data,Emp emp){
 		if(StringUtils.isEmpty(data))
 			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
 		Supplier supplier = new Supplier();
@@ -117,7 +119,6 @@ public class OrdersController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		Emp emp = (Emp) session.getAttribute("emp");
 		Orders orders = new Orders();
 		orders.setSupplier(supplier);
 		orders.setCreatetime(new Date());
@@ -164,10 +165,10 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/instore")
+	@NeedLogin
 	public Result<String> instore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
-							HttpSession session){
-		Emp emp = (Emp) session.getAttribute("emp");
+							Emp emp){
 		if(orderService.instore(storeUuid, orderDetailUuid, emp.getUuid()))
 			return Result.success("入库成功");
 		return Result.error(ResultType.ORDERS_ERROR, "入库失败");
@@ -182,10 +183,10 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/outstore")
+	@NeedLogin
 	public Result<String> outstore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
-							HttpSession session){
-		Emp emp = (Emp) session.getAttribute("emp");
+							Emp emp){
 		if(orderService.outstore(storeUuid, orderDetailUuid, emp.getUuid()))
 			return Result.success("销售订单出库成功");
 		return Result.error(ResultType.ERROR, "销售订单出库失败，请重新尝试");

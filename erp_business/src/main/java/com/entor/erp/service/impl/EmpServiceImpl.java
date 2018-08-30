@@ -66,7 +66,15 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	public Emp getEmpByToken(String token) {
 		if(StringUtils.isEmpty(token))
 			return null;
-		return redisService.get(UserRedisKey.LOGIN_TOKEN, token, Emp.class);
+		Emp emp = redisService.get(UserRedisKey.LOGIN_TOKEN, token, Emp.class);
+		if(emp!=null) emp.setPassword("******");
+		return emp;
+	}
+
+
+	@Override
+	public void removeEmpByToken(String token) {
+		redisService.del(UserRedisKey.LOGIN_TOKEN, token);
 	}
 
 
