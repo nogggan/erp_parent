@@ -12,9 +12,11 @@ import java.lang.annotation.Target;
 public @interface RequiredPermission {
 	
 	/**
-	 *	指定权限的名称,可以为多个，是AND的关系
+	 *	指定权限的名称,可以为多个，默认是And
 	 * @return
 	 */
 	String[] value();
+	
+	boolean isAnd() default true;
 
 }

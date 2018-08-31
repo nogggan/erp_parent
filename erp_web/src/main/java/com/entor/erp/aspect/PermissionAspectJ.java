@@ -43,6 +43,7 @@ public class PermissionAspectJ {
 		}
 		RequiredPermission annotation = method.getAnnotation(RequiredPermission.class);
 		String[] value = annotation.value();
+		boolean isAnd = annotation.isAnd();
 		//获取登录员工的权限点
 		Emp emp = EmpRequestContext.get();
 		if(emp == null)
@@ -54,10 +55,17 @@ public class PermissionAspectJ {
 			if(menus!=null)
 				empMenus.addAll(menus);
 		});
-		long premCount = empMenus.stream().filter(x->{
-			return Stream.of(value).anyMatch(y->x.getMenuname().equals(y));
-		}).count();
-		boolean isOwnPerm = premCount==value.length?true:false;
+		boolean isOwnPerm = false;
+		if(isAnd) {
+			long premCount = empMenus.stream().filter(x->{
+				return Stream.of(value).anyMatch(y->x.getMenuname().equals(y));
+			}).count();
+			isOwnPerm = premCount==value.length?true:false;
+		}else {
+			isOwnPerm = empMenus.stream().anyMatch(x->{
+				return Stream.of(value).anyMatch(v->x.getMenuname().equals(v));
+			});
+		}
 		if(!isOwnPerm)
 			throw new GlobalException(Result.error(ResultType.PERMISSION_DENIED, "权限不足!"));
 	}

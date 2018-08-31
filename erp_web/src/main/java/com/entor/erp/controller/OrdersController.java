@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.entor.erp.annotation.NeedLogin;
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.entity.Emp;
 import com.entor.erp.entity.Orders;
 import com.entor.erp.entity.OrdersDetail;
@@ -52,6 +53,7 @@ public class OrdersController {
 	private WebSocketService webSocketService;
 	
 	@PostMapping("/page")
+	@RequiredPermission(value= {"销售订单查询","订单查询"},isAnd=false)
 	public ResponseEntity<Map<String, Object>> getPage(Orders orders,@RequestParam(value="page",defaultValue="1")String pageNow,
 			@RequestParam(value="rows",defaultValue="3")String pageSize){
 		Integer realPageNow = 1;
