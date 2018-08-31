@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.exception.GlobalException;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
@@ -54,6 +55,7 @@ public class GoodsCountController {
 	 * @return
 	 */
 	@PostMapping("/page")
+	@RequiredPermission("销售报表")
 	public ResponseEntity<Map<String, Object>> getPage(@RequestParam(value="page",defaultValue="1")String pageNow,
 			@RequestParam(value="rows",defaultValue="3")String pageSize,
 			Date startDate,Date endDate){
@@ -82,6 +84,7 @@ public class GoodsCountController {
 	 * @param endDate
 	 */
 	@GetMapping("/chart")
+	@RequiredPermission("销售报表")
 	public void chart(HttpServletResponse response,Date startDate,Date endDate) {
 		List<GoodsCountVo> goodsCountInfo = goodsService.getGoodsCountInfo(startDate, endDate);
 		DefaultPieDataset defaultPieDataset = new DefaultPieDataset();
@@ -111,6 +114,7 @@ public class GoodsCountController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@GetMapping("/exportExcel")
+	@RequiredPermission("销售报表")
 	public void excel(HttpServletResponse response,Date startDate,Date endDate) throws UnsupportedEncodingException {
 		
 		String fileName = "销售报表统计";

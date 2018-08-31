@@ -79,6 +79,7 @@ public class OrdersController {
 	 */
 	@PostMapping("/check")
 	@NeedLogin
+	@RequiredPermission("订单审核")
 	public Result<String> check(@RequestParam(value="uuid",required=false) 
 				@Validated @NotNull(message="商品uuid不能为空")Long id,Emp emp){
 		if(orderService.check(id,emp))
@@ -93,6 +94,7 @@ public class OrdersController {
 	 */
 	@PostMapping("/confirm")
 	@NeedLogin
+	@RequiredPermission("订单确认")
 	public Result<String> confirm(@RequestParam(value="uuid",required=false)
 				@Validated @NotNull(message="商品uuid不能为空")Long id,Emp emp){
 		if(orderService.confirm(id,emp))
@@ -109,6 +111,7 @@ public class OrdersController {
 	 */
 	@PostMapping("/add")
 	@NeedLogin
+	@RequiredPermission(value= {"采购申请","销售订单录入"},isAnd=false)
 	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam(value="json",required=false)String data,Emp emp){
 		if(StringUtils.isEmpty(data))
 			throw new GlobalException(Result.error(ResultType.ARGUMENT_NOT_MATCH, "系统检测到商品数据为空"));
@@ -165,6 +168,7 @@ public class OrdersController {
 	 */
 	@PostMapping("/instore")
 	@NeedLogin
+	@RequiredPermission("订单入库")
 	public Result<String> instore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
 							Emp emp){
@@ -183,6 +187,7 @@ public class OrdersController {
 	 */
 	@PostMapping("/outstore")
 	@NeedLogin
+	@RequiredPermission("销售订单出库")
 	public Result<String> outstore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
 							Emp emp){
