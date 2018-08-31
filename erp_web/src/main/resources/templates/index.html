@@ -25,7 +25,7 @@
 			})
 			var websocket;
 			if('WebSocket' in window){
-				websocket = new WebSocket("ws://localhost:8080/websocket/"+userData.uuid);
+				websocket = new WebSocket("ws://localhost/websocket/"+userData.uuid);
 			}else{
 				alert("您的浏览器不支持WebSocket");
 			}

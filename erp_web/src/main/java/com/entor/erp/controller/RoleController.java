@@ -21,6 +21,7 @@ import com.entor.erp.entity.Role;
 import com.entor.erp.entity.Tree;
 import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
+import com.entor.erp.service.IEmpRoleService;
 import com.entor.erp.service.IRoleMenuService;
 import com.entor.erp.service.IRoleService;
 
@@ -34,6 +35,9 @@ public class RoleController {
 	
 	@Autowired
 	private IRoleMenuService roleMenuService;
+	
+	@Autowired
+	private IEmpRoleService empRoleService;
 	
 	/**
 	 * 角色分页
@@ -88,6 +92,16 @@ public class RoleController {
 	public List<Tree> getRoleTree(@RequestParam(value="empid",required=false)
 						@Validated @NotNull(message="员工编号不能为空")Long empid){
 		return roleService.getRoleTree(empid);
+	}
+	
+	@PostMapping("/updateEmpRole")
+	public Result<String> updateEmpRole(@RequestParam(value="ids",required=false)String ids,
+						@RequestParam(value="empid",required=false) 
+						@Validated @NotNull(message="员工编号不能为空")Long empid){
+		String[] roleIds = ids.split(",");
+		if(empRoleService.updateEmpRole(empid, roleIds))
+			return Result.success("用户角色修改成功");
+		return Result.error(ResultType.ERROR, "用户角色修改失败");
 	}
 	
 }

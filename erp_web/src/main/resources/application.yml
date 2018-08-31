@@ -11,6 +11,39 @@ spring:
   datasource:
     username: scott
     password: tiger
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    driver-class-name: oracle.jdbc.OracleDriver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 3
+  thymeleaf:
+    cache: false
+  mail:
+    default-encoding: UTF-8
+logging:
+  level:
+    com.entor.erp: debug
+server:
+  port: 80
+druid:
+  view:
+    servletUsername: ganxiaofeng
+    servletPassword: root
+mybatis-plus:
+  mapper-locations: classpath:/com/entor/erp/dao/*.mapper
+  global-config:
+    key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    username: scott
+    password: tiger
     url: jdbc:oracle:thin:@localhost:1521:orcl
     driver-class-name: oracle.jdbc.OracleDriver
   redis:

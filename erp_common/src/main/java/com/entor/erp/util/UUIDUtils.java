@@ -11,8 +11,4 @@ public class UUIDUtils {
 				Base64.getEncoder().encodeToString(String.valueOf(System.currentTimeMillis()).getBytes());
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(UUIDUtils.uuid());
-	}
-
 }

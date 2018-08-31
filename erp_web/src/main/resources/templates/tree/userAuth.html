@@ -12,7 +12,7 @@
 <script type="text/javascript" th:inline="javascript">
 	var empPageUrl = [[@{/emp/page}]];
 	var treeUrl = [[@{/role/roleTree}]];
-	var updateRoleAuthUrl = [[@{/role/updateRoleAuth}]];
+	var updateEmpRoleUrl = [[@{/role/updateEmpRole}]];
 </script>
 <script type="text/javascript">
 	var globalEmpId;
@@ -50,10 +50,10 @@
 		for(var i=0;i<nodes.length;i++){
 			idsArray.push(nodes[i].id);
 		}		var ids = idsArray.join();
-		$.post(updateRoleAuthUrl,{'ids':ids,'empid':globalEmpId},function(data){
+		$.post(updateEmpRoleUrl,{'ids':ids,'empid':globalEmpId},function(data){
 				if(data.code==200){
 					alert(data.data);
-					loadTree(globalRoleId);
+					loadTree(globalEmpId);
 				}else{
 					alert(data.msg);
 				}

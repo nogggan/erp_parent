@@ -11,3 +11,6 @@ druid:
     - storeOperServiceImpl #商品仓库操作详细服务监控
     - storeServiceImpl #仓库服务监控
     - supplierServiceImpl #供应商服务监控
+    - roleMenuServiceImpl #角色菜单中间表服务
+    - roleServiceImpl #角色服务监控
+    - storeWarnServiceImpl #存储监控报警服务

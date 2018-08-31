@@ -62,11 +62,4 @@ public class SysController {
 		return "redirect:/login.html";
 	}
 	
-	@GetMapping("/test")
-	@ResponseBody
-	@NeedLogin
-	public Emp get(Emp emp) {
-		return emp;
-	}
-	
 }
