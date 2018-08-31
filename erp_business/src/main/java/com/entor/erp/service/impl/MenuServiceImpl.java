@@ -15,6 +15,9 @@ import com.entor.erp.entity.Menu;
 import com.entor.erp.entity.Tree;
 import com.entor.erp.key.MenuRedisKey;
 import com.entor.erp.service.IMenuService;
+import com.entor.erp.service.IRoleService;
+
+import oracle.net.aso.f;
 
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService{
@@ -51,6 +54,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		return selectList(entityWrapper);
 	}
 
+	/**
+	 * 获取菜单并封装成Tree对象
+	 */
 	@Override
 	public List<Tree> getMenuTree(Long roleid) {
 		List<Menu> roleMenu = baseMapper.getMenuByRoleId(roleid);
@@ -74,6 +80,25 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			trees.add(tree);
 		});
 		return trees;
+	}
+
+	/**
+	 * 获取对应员工id的菜单
+	 */
+	@Override
+	public List<Menu> getMenuByEmpId(Long empid) {
+		//查询指定员工所拥有的菜单
+		List<Menu> empMenus = baseMapper.getMenuByEmpid(empid);
+		List<Menu> sortMenus = new ArrayList<>();
+		empMenus.stream().filter(empMenu->empMenu.getPid().equals("0")).forEach(m->{
+			sortMenus.add(m);
+		});
+		sortMenus.stream().forEach(menu->{
+			empMenus.stream().filter(empMenu->empMenu.getPid().equals(menu.getMenuid())).forEach(filterMenu->{
+				menu.getMenus().add(filterMenu);
+			});
+		});
+		return sortMenus;
 	}
 
 }

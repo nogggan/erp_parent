@@ -25,7 +25,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 	@Override
 	public List<Tree> getRoleTree(Long empid) {
 		//查询该员工所拥有的角色
-		List<Role> empRoles = baseMapper.getRoleByEmpId(empid);
+		List<Role> empRoles = getRoleByEmpId(empid);
 		List<Role> roles = selectList(null);
 		List<Tree> trees = new ArrayList<>();
 		roles.stream().forEach(role->{
@@ -37,6 +37,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 			trees.add(tree);
 		});
 		return trees;
+	}
+	
+	public List<Role> getRoleByEmpId(Long empid){
+		return baseMapper.getRoleByEmpId(empid);
 	}
 	
 }

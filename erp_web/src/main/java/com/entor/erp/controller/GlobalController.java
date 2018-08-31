@@ -7,6 +7,33 @@ import com.entor.erp.entity.Emp;
 @Controller
 public class GlobalController {
 
+	/*
+	 * 	registry.addViewController("/list").setViewName("dep/list");
+registry.addViewController("/orders").setViewName("orders/list");
+registry.addViewController("/goods").setViewName("goods/list");
+	 */
+
+	@GetMapping(path="/list")
+	public String toDeptList(Emp emp) {
+		if(emp == null)
+			return "redirect:/login.html";
+		return "dep/list";
+	}
+	
+	@GetMapping(path="/orders")
+	public String toOrders(Emp emp) {
+		if(emp == null)
+			return "redirect:/login.html";
+		return "orders/list";
+	}
+	
+	@GetMapping(path="/goods")
+	public String toGoods(Emp emp) {
+		if(emp == null)
+			return "redirect:/login.html";
+		return "goods/list";
+	}
+
 	@GetMapping(path="/login.html")
 	public String toLogin(Emp emp) {
 		if(emp != null)

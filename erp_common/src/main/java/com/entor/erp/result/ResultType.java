@@ -17,4 +17,6 @@ public interface ResultType {
 	Integer ORDERS_ERROR = 408;
 	
 	Integer NOT_LOGIN = 409;
+	
+	Integer	PERMISSION_DENIED = 600;
 }

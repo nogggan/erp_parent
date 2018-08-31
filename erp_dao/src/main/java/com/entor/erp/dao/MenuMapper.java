@@ -11,5 +11,7 @@ import com.entor.erp.entity.Menu;
 public interface MenuMapper extends BaseMapper<Menu>{
 	
 	List<Menu> getMenuByRoleId(Long roleid);
+	
+	List<Menu> getMenuByEmpid(Long empid);
 
 }

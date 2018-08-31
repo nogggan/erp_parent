@@ -44,11 +44,12 @@
 		});
 	};
 	function save(){
-		var nodes = $("#tree").tree('getChecked');
+		var nodes = $("#tree").tree('getChecked',['checked','indeterminate']);
 		var idsArray = new Array();
 		for(var i=0;i<nodes.length;i++){
 			idsArray.push(nodes[i].id);
-		}		var ids = idsArray.join();
+		}
+		var ids = idsArray.join();
 		$.post(updateRoleAuthUrl,{'ids':ids,'roleid':globalRoleId},function(data){
 				if(data.code==200){
 					alert(data.data);

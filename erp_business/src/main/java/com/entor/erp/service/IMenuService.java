@@ -13,4 +13,6 @@ public interface IMenuService {
 	
 	List<Tree> getMenuTree(Long roleid);
 	
+	List<Menu> getMenuByEmpId(Long empid);
+	
 }

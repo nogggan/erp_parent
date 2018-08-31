@@ -6,4 +6,8 @@
   <select id="getMenuByRoleId" resultType="com.entor.erp.entity.Menu">
   	select * from menu m,role_menu rm where m.menuid=rm.menuid and rm.roleid=#{roleid}
   </select >
+  <select id="getMenuByEmpid" resultType="com.entor.erp.entity.Menu">
+  	select * from menu where menuid in (select rm.menuid from role r,role_menu rm where r.uuid=rm.roleid and uuid in 
+  	(select roleid from emp_role where empid in (select uuid from emp where uuid = #{empid}))) order by menuid desc
+  </select>
 </mapper>

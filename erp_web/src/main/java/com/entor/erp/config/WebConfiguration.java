@@ -19,10 +19,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.entor.erp.handler.ResultHandlerMethodReturnValueHandler;
 import com.entor.erp.interceptor.AccessControlHandlerInterceptor;
+import com.entor.erp.interceptor.AuthHandlerInterceptor;
 import com.entor.erp.interceptor.HttpLogInterceptor;
 import com.entor.erp.interceptor.ResolveTokenHandlerInterceptor;
 import com.entor.erp.resolver.DateHandlerMethodArgumentResolver;
 import com.entor.erp.resolver.EmpHandlerMethodArgumentResolver;
+
+import oracle.net.aso.a;
 
 @Configuration
 @EnableScheduling
@@ -34,18 +37,15 @@ public class WebConfiguration implements WebMvcConfigurer{
 	@Autowired
 	private ResultHandlerMethodReturnValueHandler resultHandlerMethodReturnValueHandler;
 	
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/list").setViewName("dep/list");
-		registry.addViewController("/orders").setViewName("orders/list");
-		registry.addViewController("/goods").setViewName("goods/list");
-	}
+	@Autowired
+	private AuthHandlerInterceptor authHandlerInterceptor;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new HttpLogInterceptor());
-		registry.addInterceptor(tokenInterceptor);
-		registry.addInterceptor(new AccessControlHandlerInterceptor());
+		registry.addInterceptor(new HttpLogInterceptor()).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
+		registry.addInterceptor(tokenInterceptor).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
+		registry.addInterceptor(authHandlerInterceptor).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
+		registry.addInterceptor(new AccessControlHandlerInterceptor()).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
 	}
 	
 	@Override

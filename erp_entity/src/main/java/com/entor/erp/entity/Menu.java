@@ -1,5 +1,6 @@
 package com.entor.erp.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -27,7 +28,7 @@ public class Menu {
 	private String pid;
 	
 	@TableField(exist=false)
-	private List<Menu> menus;
+	private List<Menu> menus = new ArrayList<>();
 	
 	@Override
 	public boolean equals(Object obj) {
