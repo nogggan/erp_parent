@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.result.Result;
 import com.entor.erp.vo.WebModel;
 import com.entor.erp.web.socket.WebSocketService;
@@ -22,6 +23,7 @@ public class JmsController {
 	private WebSocketService webSocketService;
 	
 	@GetMapping("/test")
+	@RequiredPermission(value= {"部门","员工","员工角色分配"})
 	public Result<String> send(){ 
 		jmsTemplate.convertAndSend("new-message", "下订单了");
 		webSocketService.send(new WebModel().setMsg("有新的销售订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库"));

@@ -6,6 +6,7 @@ import org.apache.activemq.filter.function.regexMatchFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.entor.erp.handler.ResultHandlerMethodReturnValueHandler;
 import com.entor.erp.interceptor.AccessControlHandlerInterceptor;
 import com.entor.erp.interceptor.AuthHandlerInterceptor;
+import com.entor.erp.interceptor.ContextHandlerInerceptor;
 import com.entor.erp.interceptor.HttpLogInterceptor;
 import com.entor.erp.interceptor.ResolveTokenHandlerInterceptor;
 import com.entor.erp.resolver.DateHandlerMethodArgumentResolver;
@@ -29,6 +31,7 @@ import oracle.net.aso.a;
 
 @Configuration
 @EnableScheduling
+@EnableAspectJAutoProxy
 public class WebConfiguration implements WebMvcConfigurer{
 	
 	@Autowired
@@ -42,6 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer{
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new ContextHandlerInerceptor()).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
 		registry.addInterceptor(new HttpLogInterceptor()).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
 		registry.addInterceptor(tokenInterceptor).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
 		registry.addInterceptor(authHandlerInterceptor).excludePathPatterns("*.js","*.css","/bootstrap/css/bootstrap.min.css");
