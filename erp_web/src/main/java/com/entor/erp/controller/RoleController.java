@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.entity.Role;
 import com.entor.erp.entity.Tree;
 import com.entor.erp.result.Result;
@@ -53,6 +54,7 @@ public class RoleController {
 	 * @return
 	 */
 	@PostMapping("/page")
+	@RequiredPermission("角色权限分配")
 	public ResponseEntity<Map<String, Object>> getPage(Role role,@RequestParam(value="page",defaultValue="1")String pageNow,
 			@RequestParam(value="rows",defaultValue="3")String pageSize){
 		Integer realPageNow = 1;
@@ -78,6 +80,7 @@ public class RoleController {
 	 * @return
 	 */
 	@PostMapping("/updateRoleAuth")
+	@RequiredPermission("角色权限分配")
 	public Result<String> updateRoleAuth(@RequestParam(value="ids",required=false)
 						@Validated @NotBlank(message="菜单编号不能为空")String ids,
 						@RequestParam(value="roleid",required=false) 
@@ -96,12 +99,14 @@ public class RoleController {
 	 * @return
 	 */
 	@PostMapping("/roleTree")
+	@RequiredPermission("员工角色分配")
 	public List<Tree> getRoleTree(@RequestParam(value="empid",required=false)
 						@Validated @NotNull(message="员工编号不能为空")Long empid){
 		return roleService.getRoleTree(empid);
 	}
 	
 	@PostMapping("/updateEmpRole")
+	@RequiredPermission("员工角色分配")
 	public Result<String> updateEmpRole(@RequestParam(value="ids",required=false)String ids,
 						@RequestParam(value="empid",required=false) 
 						@Validated @NotNull(message="员工编号不能为空")Long empid){

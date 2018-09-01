@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.entity.Goods;
 import com.entor.erp.service.IGoodsService;
 
@@ -39,6 +40,7 @@ public class GoodsController {
 	}
 	
 	@PostMapping("/page")
+	@RequiredPermission("商品")
 	public ResponseEntity<Map<String, Object>> getPage(Goods goods,@RequestParam(value="page",defaultValue="1")String pageNow,
 			@RequestParam(value="rows",defaultValue="3")String pageSize){
 		Integer realPageNow = 1;

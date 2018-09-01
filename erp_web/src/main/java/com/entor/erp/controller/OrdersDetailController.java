@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.entity.OrdersDetail;
 import com.entor.erp.service.IOrdersDetailService;
 
@@ -23,6 +24,7 @@ public class OrdersDetailController {
 	private IOrdersDetailService orderDetailService;
 	
 	@GetMapping("/{id}")
+	@RequiredPermission(value= {"订单审核","订单确认","订单入库","订单查询","销售订单出库","销售订单查询"},isAnd=false)
 	public ResponseEntity<Map<String,Object>> get(@PathVariable("id")Long id) {
 		Map<String, Object> map = new HashMap<>();
 		List<OrdersDetail> orderDetail = orderDetailService.selectList(new EntityWrapper<OrdersDetail>().eq("ordersuuid", id));

@@ -78,10 +78,9 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/check")
-	@NeedLogin
 	@RequiredPermission("订单审核")
 	public Result<String> check(@RequestParam(value="uuid",required=false) 
-				@Validated @NotNull(message="商品uuid不能为空")Long id,Emp emp){
+				@Validated @NotNull(message="商品uuid不能为空")Long id, Emp emp){
 		if(orderService.check(id,emp))
 			return Result.success("审核成功");
 		return Result.error(ResultType.ERROR, "审核失败");
@@ -93,7 +92,6 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/confirm")
-	@NeedLogin
 	@RequiredPermission("订单确认")
 	public Result<String> confirm(@RequestParam(value="uuid",required=false)
 				@Validated @NotNull(message="商品uuid不能为空")Long id,Emp emp){
@@ -110,7 +108,6 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	@NeedLogin
 	@RequiredPermission(value= {"采购申请","销售订单录入"},isAnd=false)
 	public Result<String> add(@Valid SupplierVo supplierVo,@RequestParam(value="json",required=false)String data,Emp emp){
 		if(StringUtils.isEmpty(data))
@@ -167,7 +164,6 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/instore")
-	@NeedLogin
 	@RequiredPermission("订单入库")
 	public Result<String> instore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,
@@ -186,7 +182,6 @@ public class OrdersController {
 	 * @return
 	 */
 	@PostMapping("/outstore")
-	@NeedLogin
 	@RequiredPermission("销售订单出库")
 	public Result<String> outstore(@RequestParam(value="storeUuid",required=false) @Validated @NotNull(message="仓库编号不能为空") Long storeUuid,
 							@RequestParam(value="orderDetailUuid",required=false) @Validated @NotNull(message="订单详细编号不能为空") Long orderDetailUuid,

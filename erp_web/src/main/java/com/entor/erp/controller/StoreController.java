@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.entity.Store;
 import com.entor.erp.service.IStoreService;
 

@@ -23,6 +23,16 @@ spring:
     cache: false
   mail:
     default-encoding: UTF-8
+    host: smtp.qq.com
+    password: kdxnlyaphvgsbjcc
+    protocol: smtp
+    username: 535211279@qq.com
+    properties:
+      smtp:
+        connectiontimeout: 5000
+        timeout: 3000
+        write-timeout: 5000
+        
 logging:
   level:
     com.entor.erp: debug
@@ -56,6 +66,16 @@ spring:
     cache: false
   mail:
     default-encoding: UTF-8
+    host: smtp.qq.com
+    password: kdxnlyaphvgsbjcc
+    protocol: smtp
+    username: 535211279@qq.com
+    properties:
+      smtp:
+        connectiontimeout: 5000
+        timeout: 3000
+        write-timeout: 5000
+        
 logging:
   level:
     com.entor.erp: debug

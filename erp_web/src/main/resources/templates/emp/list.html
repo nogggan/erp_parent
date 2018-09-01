@@ -11,6 +11,7 @@
 <script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 	var empPageUrl = [[@{/emp/page}]];
+	var getDepByEmpIdUrl = [[@{/dep/}]];
 </script>
 <script type="text/javascript">
 	$(function(){
@@ -25,6 +26,12 @@
 			{field:'name',title:'员工姓名',align:'center',width:140},
 			{field:'tele',title:'手机号码',align:'center',width:140},
 			{field:'address',title:'地址',align:'center',width:180},
+			{field:'depuuid',title:'部门',align:'center',width:180,formatter:function(value,row,index){
+				$.get(getDepByEmpIdUrl+value,function(data){
+					$("#dep_"+index).html(data.name);
+				})
+				return "<span id='dep_"+index+"'></span>";
+			}},
 			{field:'gender',title:'性别',align:'center',width:120,formatter:function(value,row,index){
 				if(value=="1")
 					return '男';
@@ -34,14 +41,63 @@
 			{field:'birthday',title:'生日',align:'center',width:180},
 			{field:'email',title:'邮箱',align:'center',width:120}
 		]],
+		toolbar:[
+			{
+				iconCls:'icon-add',
+				text:'添加',
+				handler:function(){
+					
+				}
+			}
+		],
 		pagination:true,
 		pageSize:'5',
 		pageList:[5,10,15,20]
 	});
+		$("#addWindow").dialog({
+			title:'添加员工',
+			width:290,
+			height:500,
+			closed:true,
+			cache:false,
+			modal:true,
+			buttons:[
+				{
+					text:'添加',
+					handler:function(){
+						
+					}
+				}
+			]
+		})
 	})
 </script>
 </head>
 <body>
 	<table id="grid"></table>
+	<div id="addWindow">
+		<form id="addForm">
+			<table style="margin:10px;">
+				<tr>
+					<td>员工名字：</td><td><input name="name"/></td>
+				</tr>
+				<tr>
+					<td>员工账号：</td><td><input name="username"/></td>
+				</tr>
+				<tr>
+					<td>员工账号：</td><td><input name="username"/></td>
+				</tr>
+				<tr>
+					<td>手机号码：</td><td><input name="tele"/></td>
+				</tr>
+				<tr>
+					<td>地址：</td><td><input name="address"/></td>
+				</tr>
+				<tr>
+					<td>邮箱：</td><td><input name="email"/></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 </body>
 </html>

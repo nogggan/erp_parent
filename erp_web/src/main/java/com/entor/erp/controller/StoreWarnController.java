@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.entor.erp.aspect.RequiredPermission;
 import com.entor.erp.entity.Orders;
 import com.entor.erp.entity.StoreWarn;
 import com.entor.erp.service.IStoreWarnService;
@@ -26,6 +27,7 @@ public class StoreWarnController {
 	private IStoreWarnService warnService;
 
 	@PostMapping("/page")
+	@RequiredPermission("库存警告")
 	public ResponseEntity<Map<String, Object>> getPage(StoreWarn storeWarn,@RequestParam(value="page",defaultValue="1")String pageNow,
 			@RequestParam(value="rows",defaultValue="3")String pageSize){
 		Integer realPageNow = 1;
