@@ -25,7 +25,7 @@
 			})
 			var websocket;
 			if('WebSocket' in window){
-				websocket = new WebSocket("ws://localhost/websocket/"+userData.uuid);
+				websocket = new WebSocket("ws://localhost:8080/websocket/"+userData.uuid);
 			}else{
 				alert("您的浏览器不支持WebSocket");
 			}
@@ -36,11 +36,19 @@
 			}
 			websocket.onmessage=function(event){
 				eval("var result = "+event.data);
+				if(result.code==0){
+					$("#selectInfo").html("查看");
+					$("#selectInfo").click(function(){
+						addTab(result.title,result.url,'icon');
+					});
+				}else if(result.code==1){
+					$("#selectInfo").html("刷新页面");
+					$("#selectInfo").click(function(){
+						window.location.href="[[@{/}]]";
+					});
+				}
 				$(".modal-body").html(result.msg);
 				$("#myModal").modal({backdrop:false}).show();
-				$("#selectInfo").click(function(){
-					addTab(result.title,result.url,'icon');
-				});
 			}
 			websocket.onerror = function(){
 			}

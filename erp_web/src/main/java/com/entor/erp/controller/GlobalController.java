@@ -111,4 +111,11 @@ registry.addViewController("/goods").setViewName("goods/list");
 		return "tree/userAuth";
 	}
 	
+	@GetMapping(path="/emp/list.html")
+	public String toEmpList(Emp emp) {
+		if(emp == null)
+			return "redirect:/login.html";
+		return "emp/list";
+	}
+	
 }

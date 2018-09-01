@@ -61,4 +61,14 @@ public class WebSocketService {
 		});
 	}
 	
+	public void sendByUserid(Object message,Long empid) {
+		WebSocketService webSocketService = USER_MAP.get(empid.toString());
+		if(webSocketService!=null)
+			try {
+				webSocketService.session.getBasicRemote().sendText(JSONObject.toJSONString(message));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
 }

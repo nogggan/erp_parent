@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ import com.entor.erp.result.ResultType;
 import com.entor.erp.service.IEmpRoleService;
 import com.entor.erp.service.IRoleMenuService;
 import com.entor.erp.service.IRoleService;
+import com.entor.erp.vo.WebModel;
+import com.entor.erp.web.socket.WebSocketService;
 
 @RestController
 @RequestMapping("/role")
@@ -38,6 +41,9 @@ public class RoleController {
 	
 	@Autowired
 	private IEmpRoleService empRoleService;
+	
+	@Autowired
+	private JmsTemplate jmsTemplate;
 	
 	/**
 	 * 角色分页
@@ -77,8 +83,9 @@ public class RoleController {
 						@RequestParam(value="roleid",required=false) 
 						@Validated @NotNull(message="角色编号不能为空")Long roleid){
 		String[] menuIds = ids.split(",");
-		if(roleMenuService.updateRoleMenu(roleid, menuIds))
+		if(roleMenuService.updateRoleMenu(roleid, menuIds)) {
 			return Result.success("权限修改成功");
+		}
 		else
 			return Result.error(ResultType.ERROR, "修改权限失败，请重新尝试");
 	}
@@ -99,9 +106,11 @@ public class RoleController {
 						@RequestParam(value="empid",required=false) 
 						@Validated @NotNull(message="员工编号不能为空")Long empid){
 		String[] roleIds = ids.split(",");
-		if(empRoleService.updateEmpRole(empid, roleIds))
+		if(empRoleService.updateEmpRole(empid, roleIds)) {
+			jmsTemplate.convertAndSend("emp-role-update", empid);
 			return Result.success("用户角色修改成功");
-		return Result.error(ResultType.ERROR, "用户角色修改失败");
+		}else
+			return Result.error(ResultType.ERROR, "用户角色修改失败");
 	}
 	
 }

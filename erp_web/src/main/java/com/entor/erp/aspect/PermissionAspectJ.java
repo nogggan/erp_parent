@@ -20,6 +20,11 @@ import com.entor.erp.result.Result;
 import com.entor.erp.result.ResultType;
 import com.entor.erp.service.IMenuService;
 
+/**
+ * 权限拦截切面
+ * @author Gan
+ *
+ */
 @Component
 @Aspect
 public class PermissionAspectJ {

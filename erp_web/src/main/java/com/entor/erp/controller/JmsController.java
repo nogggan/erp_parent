@@ -25,13 +25,20 @@ public class JmsController {
 	@RequiredPermission(value= {"部门","员工","员工角色分配"})
 	public Result<String> send(){ 
 		jmsTemplate.convertAndSend("new-message", "下订单了");
-		webSocketService.send(new WebModel().setMsg("有新的销售订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库"));
+		webSocketService.send(new WebModel().setMsg("有新的销售订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库").setCode(0));
 		return Result.success("成功发送");
 	}
 	
 	@JmsListener(destination="new-message")
 	public void handle(String message) {
 		System.out.println("收到了消息，当前线程"+Thread.currentThread().getName()+":"+message);
+	}
+	
+	@JmsListener(destination="emp-role-update")
+	public void handlerEmpRoleUpdate(Long empid) {
+		WebModel webModel = new WebModel().setMsg("您的权限点被修改,如果您正在操作，请忽略！")
+				.setTitle("权限提示").setUrl("").setCode(1);
+		webSocketService.sendByUserid(webModel,empid);
 	}
 	
 }

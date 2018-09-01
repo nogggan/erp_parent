@@ -116,7 +116,6 @@ public class GoodsCountController {
 	@GetMapping("/exportExcel")
 	@RequiredPermission("销售报表")
 	public void excel(HttpServletResponse response,Date startDate,Date endDate) throws UnsupportedEncodingException {
-		
 		String fileName = "销售报表统计";
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(fileName+".xls", "utf-8"));

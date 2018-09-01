@@ -150,9 +150,9 @@ public class OrdersController {
 		if(orderService.addOrderAndOrderDetail(orders, details)) {
 			//推送消息
 			if(supplierVo.getType().equals("1"))
-				webSocketService.send(new WebModel().setMsg("有新的采购订单").setUrl("/order/check.html?type=1").setTitle("采购审核"));
+				webSocketService.send(new WebModel().setMsg("有新的采购订单").setUrl("/order/check.html?type=1").setTitle("采购审核").setCode(0));
 			else
-				webSocketService.send(new WebModel().setMsg("有新的销售入库订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库"));
+				webSocketService.send(new WebModel().setMsg("有新的销售入库订单").setUrl("/order/outstore.html?type=2").setTitle("销售订单出库").setCode(0));
 			return supplierVo.getType().equals("1")?Result.success("采购成功"):Result.success("销售订单录入成功");
 		}
 		else

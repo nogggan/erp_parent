@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:inline="none">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/easyui/themes/default/easyui.css}" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link th:href="@{/easyui/themes/icon.css}" rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<script type="text/javascript" src="/easyui/jquery.min.js" th:src="@{/easyui/jquery.min.js}"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js" th:src="@{/easyui/jquery.easyui.min.js}"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js" th:src="@{/easyui/locale/easyui-lang-zh_CN.js}"></script>
+<script type="text/javascript" src="/js/form.js" th:src="@{/js/form.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	var empPageUrl = [[@{/emp/page}]];
+</script>
+<script type="text/javascript">
+	$(function(){
+		$("#grid").datagrid({
+		url:empPageUrl,
+		singleSelect:"true",
+		fitColumns:"true",
+		title:'员工管理',
+		columns:[[
+			{field:'uuid',title:'员工编号',align:'center',width:120},
+			{field:'username',title:'员工账号',align:'center',width:140},
+			{field:'name',title:'员工姓名',align:'center',width:140},
+			{field:'tele',title:'手机号码',align:'center',width:140},
+			{field:'address',title:'地址',align:'center',width:180},
+			{field:'gender',title:'性别',align:'center',width:120,formatter:function(value,row,index){
+				if(value=="1")
+					return '男';
+				else
+					return '女';
+			}},
+			{field:'birthday',title:'生日',align:'center',width:180},
+			{field:'email',title:'邮箱',align:'center',width:120}
+		]],
+		pagination:true,
+		pageSize:'5',
+		pageList:[5,10,15,20]
+	});
+	})
+</script>
+</head>
+<body>
+	<table id="grid"></table>
+</body>
+</html>
