@@ -1,6 +1,9 @@
 package com.entor.erp.handler;
+import java.util.concurrent.TimeUnit;
 
 import org.gan.spring.boot.autoconfigure.redis.RedisService;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -11,16 +14,14 @@ import org.springframework.stereotype.Component;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.entor.erp.entity.StoreWarn;
-import com.entor.erp.entity.Tree;
 import com.entor.erp.service.IStoreWarnService;
 import lombok.extern.slf4j.Slf4j;
-import oracle.net.aso.l;
 
 @Component
 @Slf4j
 public class TimerHandler implements InitializingBean{
 	
-	private long lockTimeout = 5000;
+	private long lockTimeout = 5;
 	
 	@Autowired
 	private Environment environment;
@@ -34,7 +35,11 @@ public class TimerHandler implements InitializingBean{
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
-	@Scheduled(cron="0 */1 * * * *")
+	@Autowired
+	private RedissonClient redissonCLient;
+	
+	@Deprecated
+//	@Scheduled(cron="0 */1 * * * *")
 	public void handlerStoreWarn() {
 		log.debug("正在处理库存警告");
 		Long result = redisService.setnx(LockRedisKey.LOCK, "lock", String.valueOf(System.currentTimeMillis()+lockTimeout));
@@ -65,8 +70,27 @@ public class TimerHandler implements InitializingBean{
 		}
 	}
 	
+	@Scheduled(cron="0 */1 * * * *")
+	public void handlerWarn() {
+		boolean isOwnLock = false;
+		RLock lock = redissonCLient.getLock(LockRedisKey.LOCK.prefix());
+		try {
+			if(isOwnLock = lock.tryLock(0, lockTimeout, TimeUnit.SECONDS)) {
+				log.debug("获得分布式锁：{}，当前线程: {}",LockRedisKey.LOCK.prefix(),Thread.currentThread().getName());
+				checkStore();
+			}else {
+				log.debug("没有获得分布式锁：{}，当前线程: {}",LockRedisKey.LOCK.prefix(),Thread.currentThread().getName());
+			}
+		} catch (Exception e) {
+			log.error("获取分布式锁发生异常");
+		}finally {
+			if(!isOwnLock)
+				return;
+			log.debug(lockTimeout+"秒后释放分布式锁：{}，当前线程: {}",LockRedisKey.LOCK.prefix(),Thread.currentThread().getName());
+		}
+	}
+	
 	public void checkStore() {
-		redisService.expire(LockRedisKey.LOCK, "lock",5);
 		Page<StoreWarn> page = new Page<>(1,3);
 		page = storeWarnService.getPage(page, null);
 		if(page.getTotal() > 0) {
@@ -78,7 +102,6 @@ public class TimerHandler implements InitializingBean{
 			simpleMailMessage.setTo("13642413572@163.com");
 			javaMailSender.send(simpleMailMessage);
 		}
-		redisService.expire(LockRedisKey.LOCK, "lock",2);
 	}
 
 	@Override

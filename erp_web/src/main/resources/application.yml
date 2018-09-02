@@ -6,7 +6,7 @@ spring:
     - monitor
 ---
 #jdbc:mysql://127.0.0.1/ssh_test,com.mysql.jdbc.Driver
-long-timeout: 5000
+long-timeout: 5
 
 spring:
   profiles: dev
@@ -56,7 +56,7 @@ mybatis-plus:
 
 ---
 
-long-timeout: 50000
+long-timeout: 5
 
 spring:
   profiles: test
@@ -101,7 +101,7 @@ mybatis-plus:
     
 ---
 
-long-timeout: 50000
+long-timeout: 5
 
 spring:
   profiles: testNginx
