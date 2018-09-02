@@ -1,5 +1,6 @@
 package com.entor.erp.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import lombok.Data;
  *
  */
 @Data
-public class Menu {
+public class Menu implements Serializable{
+
+	private static final long serialVersionUID = -7455641513822023038L;
 
 	@TableId
 	private String menuid;

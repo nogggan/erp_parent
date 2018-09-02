@@ -1,5 +1,7 @@
 package com.entor.erp.entity;
 
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotations.KeySequence;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -14,7 +16,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @KeySequence(value="GOODS_SEQ")
-public class Goods {
+public class Goods implements Serializable{
+
+	private static final long serialVersionUID = -4342963812480296637L;
 
 	@TableId(type=IdType.INPUT)
 	private Long uuid;

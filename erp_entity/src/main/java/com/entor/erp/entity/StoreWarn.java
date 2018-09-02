@@ -1,5 +1,7 @@
 package com.entor.erp.entity;
 
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
@@ -14,7 +16,9 @@ where g.uuid=s.goodsuuid and s.goodsuuid=o.goodsuuid and s.inNum < o.outNum;
  */
 @Data
 @TableName(value="v_storewarn")
-public class StoreWarn {
+public class StoreWarn implements Serializable{
+
+	private static final long serialVersionUID = 5166993026948612689L;
 
 	@TableId
 	private Long uuid;

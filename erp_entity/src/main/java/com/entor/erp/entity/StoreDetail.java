@@ -1,5 +1,7 @@
 package com.entor.erp.entity;
 
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotations.KeySequence;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -16,8 +18,10 @@ import lombok.Data;
 @Data
 @TableName(value="STOREDETAIL",resultMap="storeDetailMap")
 @KeySequence(value="STOREDETAIL_SEQ")
-public class StoreDetail {
+public class StoreDetail implements Serializable{
 	
+	private static final long serialVersionUID = -2509720298594417817L;
+
 	@TableId(type=IdType.INPUT)
 	private Long uuid;
 	

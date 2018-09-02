@@ -13,6 +13,11 @@ spring:
     password: tiger
     url: jdbc:oracle:thin:@localhost:1521:xe
     driver-class-name: oracle.jdbc.OracleDriver
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on-save
+      namespace: spring::session
   redis:
     host: 127.0.0.1
     port: 6379

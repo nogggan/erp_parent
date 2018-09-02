@@ -1,5 +1,6 @@
 package com.entor.erp.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotations.KeySequence;
@@ -19,8 +20,10 @@ import lombok.experimental.Accessors;
 @Data
 @KeySequence(value="ORDERS_SEQ")
 @TableName(resultMap="ordersMap")
-public class Orders {
+public class Orders implements Serializable{
 	
+	private static final long serialVersionUID = 349019919072589665L;
+
 	@TableId(type=IdType.INPUT)
 	private Long uuid;
 	

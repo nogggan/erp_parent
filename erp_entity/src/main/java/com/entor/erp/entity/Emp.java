@@ -1,5 +1,6 @@
 package com.entor.erp.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -15,7 +16,9 @@ import lombok.experimental.Accessors;
  *
  */
 @Data
-public class Emp {
+public class Emp implements Serializable{
+
+	private static final long serialVersionUID = 8921050265653862045L;
 
 	@TableId
 	private Long uuid;

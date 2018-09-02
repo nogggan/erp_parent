@@ -16,5 +16,7 @@ public interface IEmpService {
 	void removeEmpByToken(String token);
 	
 	Page<Emp> getPage(Page<Emp> page,Emp emp);
+	
+	Emp login(Emp emp);
 
 }

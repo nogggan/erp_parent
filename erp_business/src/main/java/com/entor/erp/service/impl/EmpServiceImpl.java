@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.entor.erp.constant.Constant;
 import com.entor.erp.dao.EmpMapper;
 import com.entor.erp.entity.Emp;
 import com.entor.erp.exception.GlobalException;
@@ -28,6 +29,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	@Autowired
 	private RedisService redisService;
 
+	@Deprecated
 	@Override
 	public void login(HttpServletResponse response,Emp emp) {
 		Emp dbEmp = getByUserName(emp.getUsername());
@@ -40,8 +42,9 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	}
 
 
+	@Deprecated
 	private void addCookie(HttpServletResponse response, String token) {
-		Cookie cookie = new Cookie(USERNAME_TOKEN, token);
+		Cookie cookie = new Cookie(Constant.TOKEN, token);
 		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
@@ -63,6 +66,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	}
 
 
+	@Deprecated
 	@Override
 	public Emp getEmpByToken(String token) {
 		if(StringUtils.isEmpty(token))
@@ -73,6 +77,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	}
 
 
+	@Deprecated
 	@Override
 	public void removeEmpByToken(String token) {
 		redisService.del(UserRedisKey.LOGIN_TOKEN, token);
@@ -83,6 +88,15 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
 	public Page<Emp> getPage(Page<Emp> page, Emp emp) {
 		EntityWrapper<Emp> wrapper = new EntityWrapper<>();
 		return selectPage(page, wrapper);
+	}
+
+
+	@Override
+	public Emp login(Emp emp) {
+		Emp dbEmp = getByUserName(emp.getUsername());
+		if(dbEmp==null || (!dbEmp.getPassword().equals(emp.getPassword())))
+			throw new GlobalException(Result.error(ResultType.USER_NO_EXISTS, "用户名或密码错误"));
+		return dbEmp;
 	}
 
 

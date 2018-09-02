@@ -2,22 +2,21 @@ package com.entor.erp.config;
 
 import java.util.List;
 
-import org.apache.activemq.filter.function.regexMatchFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
-import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.entor.erp.constant.Constant;
 import com.entor.erp.handler.ResultHandlerMethodReturnValueHandler;
 import com.entor.erp.interceptor.AccessControlHandlerInterceptor;
 import com.entor.erp.interceptor.AuthHandlerInterceptor;
@@ -26,8 +25,6 @@ import com.entor.erp.interceptor.HttpLogInterceptor;
 import com.entor.erp.interceptor.ResolveTokenHandlerInterceptor;
 import com.entor.erp.resolver.DateHandlerMethodArgumentResolver;
 import com.entor.erp.resolver.EmpHandlerMethodArgumentResolver;
-
-import oracle.net.aso.a;
 
 @Configuration
 @EnableScheduling
@@ -77,6 +74,14 @@ public class WebConfiguration implements WebMvcConfigurer{
 //	@Bean
 	public ErpErrorAttribute erpErrorAttribute() {
 		return new ErpErrorAttribute();
+	}
+	
+	@Bean
+	public CookieSerializer defaultCookieSerializer() {
+		DefaultCookieSerializer defaultCookieSerializer = new DefaultCookieSerializer();
+		defaultCookieSerializer.setCookieName(Constant.TOKEN);
+		defaultCookieSerializer.setUseHttpOnlyCookie(true);
+		return defaultCookieSerializer;
 	}
 	
 }
