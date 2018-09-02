@@ -6,6 +6,8 @@ spring:
     - monitor
 ---
 #jdbc:mysql://127.0.0.1/ssh_test,com.mysql.jdbc.Driver
+long-timeout: 5000
+
 spring:
   profiles: dev
   datasource:
@@ -54,6 +56,8 @@ mybatis-plus:
 
 ---
 
+long-timeout: 50000
+
 spring:
   profiles: test
   datasource:
@@ -86,6 +90,51 @@ logging:
     com.entor.erp: debug
 server:
   port: 8080
+druid:
+  view:
+    servletUsername: ganxiaofeng
+    servletPassword: root
+mybatis-plus:
+  mapper-locations: classpath:/com/entor/erp/dao/*.mapper
+  global-config:
+    key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+    
+---
+
+long-timeout: 50000
+
+spring:
+  profiles: testNginx
+  datasource:
+    username: scott
+    password: tiger
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    driver-class-name: oracle.jdbc.OracleDriver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 3
+  thymeleaf:
+    cache: false
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    password: kdxnlyaphvgsbjcc
+    protocol: smtp
+    username: 535211279@qq.com
+    properties:
+      smtp:
+        connectiontimeout: 5000
+        timeout: 3000
+        write-timeout: 5000
+        
+logging:
+  level:
+    com.entor.erp: debug
+server:
+  port: 8088
 druid:
   view:
     servletUsername: ganxiaofeng
