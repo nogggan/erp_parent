@@ -14,7 +14,7 @@ public class RedissonConfiguration {
 	@Autowired
 	private RedisProperties redisProperties;
 	
-	@Bean
+	@Bean(destroyMethod="shutdown")
 	public RedissonClient redissonClient() {
 		Config config = new Config();
 		String host = redisProperties.getHost();
